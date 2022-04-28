@@ -16,4 +16,9 @@ router.post("/add_question", (req, res) => {
     .then((result) =>res.send(result))
     .catch((error) =>res.send(error))
 });
-module.exports = router;
+// Delete question to MongoDB
+router.delete('/delete_question/:id',(req, res) => {
+    questionsModel.deleteOne({_id:req.params.id})
+    .then((result) =>res.send(result))
+    .catch((error) =>res.send(error))
+});
