@@ -36,12 +36,12 @@ function showAllQuestion(list_of_questions){
         box1.classList = "box d-flex";
 
         let answer_1 = document.createElement("div");
-        answer_1.classList = "btn ";
+        answer_1.classList = "btn";
         answer_1.textContent = list_of_questions[index]["answers"]["A"];
         
         // CREATE LIST FOR ANSWER-2
         let answer_2 = document.createElement("div");
-        answer_2.classList = "btn ";
+        answer_2.classList = "btn";
         answer_2.textContent = list_of_questions[index]["answers"]["B"];
         
         box1.appendChild(answer_1);

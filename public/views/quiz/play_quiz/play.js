@@ -1,7 +1,4 @@
 
-
-let URL = "http://localhost:8080"
-
 function requestData(){
     axios.get( "/questions/display_question").then((result)=>{
         let list_of_questions = result.data;
@@ -46,34 +43,37 @@ function playQuiz(list_of_questions) {
             box1.classList = "box d-flex";
     
             let answer_1 = document.createElement("div");
-            answer_1.classList = "btn btn-primary";
+            answer_1.classList = "btn";
             answer_1.id = "A";
             answer_1.style.cursor = "pointer"
             answer_1.textContent = list_of_questions[index]["answers"]["A"];
             
             // CREATE LIST FOR ANSWER-2
             let answer_2 = document.createElement("div");
-            answer_2.classList = "btn btn-primary";
+            answer_2.classList = "btn";
             answer_2.id = "B";
+            answer_2.style.cursor = "pointer";
             answer_2.textContent = list_of_questions[index]["answers"]["B"];
             
             box1.appendChild(answer_1);
             box1.appendChild(answer_2);
             let box2 = document.createElement("div");
             box2.classList = "box d-flex";
-            answer_2.style.cursor = "pointer"
             // CREATE LIST FOR ANSWER-3
             let answer_3 = document.createElement("div");
-            answer_3.classList = "btn btn-primary";
+            answer_3.classList = "btn";
             answer_3.id = "C";
             answer_3.style.cursor = "pointer"
             answer_3.textContent = list_of_questions[index]["answers"]["C"];
     
             // CREATE LIST FOR ANSWER-4
             let answer_4 = document.createElement("div");
-            answer_4.classList = "btn btn-primary";
+            answer_4.classList = "btn";
+            answer_4.style.cursor = "pointer";
+            answer_4.textContent = list_of_questions[index]["answers"]["D"];
             box2.appendChild(answer_3);
-    
+            box2.appendChild(answer_4);
+
             content_answers.appendChild(box1);
             content_answers.appendChild(box2);
             content_question.appendChild(card);
@@ -82,18 +82,18 @@ function playQuiz(list_of_questions) {
               // RANGE PROGREES BAR;
             let range = document.createElement("div");
             range.className = "range";
+            progrees+= (100/list_of_questions.length);
             range.style.width = progrees + "%";
             let subRange = document.createElement("div")
             subRange.className = "subRange";
             let textRange = document.createElement("h6");
+            // INCREMENT INDEX BY 1
+            index += 1;
             textRange.textContent = index+'/'+ list_of_questions.length;
             subRange.appendChild(textRange);
             content_question.appendChild(subRange);
             content_question.appendChild(range);
 
-            // INCREMENT INDEX BY 1
-            index += 1;
-            progrees+= (100/list_of_questions.length);
             screenToDisplay.appendChild(content_question);
             temperaryData = list_of_questions;
         }
@@ -107,7 +107,7 @@ function playQuiz(list_of_questions) {
 // Valuate the the result
 function getClick(event){
     if(index < temperaryData.length){
-        event.target.classList= "btn btn-danger";
+        event.target.classList = "btn btn-danger";
         if (temperaryData[index-1]["corr_answer"] == event.target.id){
         console.log(true)
         }else{console.log(false)}
