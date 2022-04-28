@@ -91,3 +91,49 @@ header {
 .card_footer{
     display: flex;
 }
+
+/* Range of Task bar */
+.range{
+    width: 1%;
+    height: 3vh;
+    background: blue;
+}
+.subRange{
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    margin-top: 10px;
+}
+.correction{
+    width: 60%;
+    margin-top: 20px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.correctionScore{
+    width: 80%;
+    margin:auto;
+    text-align: center;
+}
+.scores{
+    display: flex;justify-content: center;
+    align-items: center;
+}
+.correctionSummary{
+    width: 60%;
+    margin-top: 20px;
+    margin: auto;
+    padding: 10px;
+}
+.summary{
+    background: rgb(182, 182, 182);
+    width: 100%;
+    padding: 6px;
+
+}
+.questionSummary{
+    background:rgb(215, 219, 255);
+    border-bottom: 1px solid black;
+}
