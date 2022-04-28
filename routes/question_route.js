@@ -10,4 +10,10 @@ router.get("/display_question", (req, res) => {
     .then((result) =>res.send(result))
     .catch((error) =>res.send(error))
 });
+// Add question to MongoDB
+router.post("/add_question", (req, res) => {
+    questionsModel.create(req.body)
+    .then((result) =>res.send(result))
+    .catch((error) =>res.send(error))
+});
 module.exports = router;
