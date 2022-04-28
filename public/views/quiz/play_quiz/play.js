@@ -1,6 +1,6 @@
 
 
-let URL = "http://localhost:8000"
+let URL = "http://localhost:8080"
 
 function requestData(){
     axios.get(URL + "/questions/display_question").then((result)=>{
