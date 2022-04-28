@@ -38,6 +38,7 @@ function playQuiz(list_of_questions) {
     
             let answer_1 = document.createElement("div");
             answer_1.classList = "btn btn-primary";
+            answer_1.style.cursor = "pointer"
             answer_1.textContent = list_of_questions[index]["answers"]["A"];
             
             // CREATE LIST FOR ANSWER-2
@@ -49,14 +50,17 @@ function playQuiz(list_of_questions) {
             box1.appendChild(answer_2);
             let box2 = document.createElement("div");
             box2.classList = "box d-flex";
+            answer_2.style.cursor = "pointer"
             // CREATE LIST FOR ANSWER-3
             let answer_3 = document.createElement("div");
             answer_3.classList = "btn btn-primary";
+            answer_3.style.cursor = "pointer"
             answer_3.textContent = list_of_questions[index]["answers"]["C"];
     
             // CREATE LIST FOR ANSWER-4
             let answer_4 = document.createElement("div");
             answer_4.classList = "btn btn-primary";
+            answer_4.style.cursor = "pointer"
             answer_4.textContent = list_of_questions[index]["answers"]["D"];
             box2.appendChild(answer_3);
             box2.appendChild(answer_4);

@@ -1,12 +1,12 @@
-let URL = "http://localhost:8080"
+// let URL = "http://192.168.11.15:8080"
 
 function sendDataToServer(response) {
-    axios.post(URL+"/questions/add_question",response).then(requestDataFromServer());
+    axios.post("/questions/add_question",response).then(requestDataFromServer());
     console.log(response);
 }
 
 function requestDataFromServer(){
-    axios.get(URL + "/questions/display_question").then((result)=>{
+    axios.get("/questions/display_question").then((result)=>{
         let list_of_questions = result.data;
         showAllQuestion(list_of_questions);
     })

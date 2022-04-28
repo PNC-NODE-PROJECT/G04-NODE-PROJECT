@@ -146,15 +146,24 @@ header {
 
 }
 .container-create-question{
-    width: 60%;
-    margin: 80px auto;
+    width: 50%;
+    margin:auto;
     padding: 10px;
-    background: rgb(193, 193, 193);
-    border-top: 8px solid #0593E3;
+    background: rgb(234, 231, 231);
+    /* border-top: 8px solid #0593E3; */
     padding: 20px 30px;
     text-align: right;
     /* box-shadow: -15px -15px 15px rgba(255,255,255,0.2),
                 15px 15px 15px rgba(0, 0, 0, 0.1),
                 inset -5px -5px 5px rgba(255, 255, 255, 0.2),
                 inset 5px 5px 5px rgba(0, 0, 0, 0.1); */
+}
+
+.template-header{
+    background: #0593E3;
+    width: 50%;
+    margin: auto;
+    margin-top: 80px;
+    color: #fff;
+    padding: 10px 0;
 }

@@ -6,7 +6,7 @@ app.use(cors({origin: "*"})); // To allow any origin
 app.use(express.json()); // To read json data in request body
 app.use(express.static("public"));
 const PORT = process.env.PORT || 3000
-app.listen(PORT, () => {console.log('listening on port ' + PORT)});
+app.listen(PORT, () => {console.log("http://localhost:"+PORT)});
 // Route for display 
 let questionsRouter = require('./routes/question_route');
 let usersRouter = require('./routes/user_route');
