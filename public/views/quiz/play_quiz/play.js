@@ -12,6 +12,7 @@ function saveDataInLocalStorage(list_of_questions){
 }
 // Get data from local storage
 function getDataFromLocalStorage(){
+    
     let data = JSON.parse(localStorage.getItem("data"));
     playQuiz(data);
 }
@@ -35,7 +36,7 @@ function playQuiz(list_of_questions) {
         question.textContent = list_of_questions[index]['title'];
         card .appendChild(question);
         // CHANGE ANSWER ALL TIME WHENEVER USER CLICK NEXT
-        // // CREATE LIST FOR ANSWER-1
+        // CREATE LIST FOR ANSWER-1
         let content_answers = document.createElement("div");
         content_answers.classList = "answers";
 
@@ -71,7 +72,8 @@ function playQuiz(list_of_questions) {
         let answer_4 = document.createElement("div");
         answer_4.classList = "btn w-50";
         answer_4.style.cursor = "pointer";
-        answer_4.style.height =  "20vh"
+        answer_4.style.height =  "20vh";
+        answer_4.id = "D";
         answer_4.textContent = list_of_questions[index]["answers"]["D"];
         box2.appendChild(answer_3);
         box2.appendChild(answer_4);
@@ -81,7 +83,7 @@ function playQuiz(list_of_questions) {
         content_question.appendChild(card);
         content_question.appendChild(content_answers);
         
-            // RANGE PROGREES BAR;
+        // RANGE PROGREES BAR;
         let range = document.createElement("div");
         range.className = "range";
         range.style.width = progrees + "%";
@@ -94,39 +96,53 @@ function playQuiz(list_of_questions) {
         content_question.appendChild(subRange);
         content_question.appendChild(range);
         screenToDisplay.appendChild(content_question);
-        temperaryData = list_of_questions;
+        
         // INCREMENT INDEX BY 1
-        index += 1;
         progrees += (100/list_of_questions.length);
     }
-        // Create button click
-        let buttons = document.querySelectorAll(".btn");
-        for(let i=0; i<buttons.length; i++){
-            if(i> 0){buttons[i].addEventListener("click",getClick);}
+    // Create button click
+    let buttons = document.querySelectorAll(".btn");
+    for(let i=0; i<buttons.length; i++){
+        if(i > 0){
+            buttons[i].addEventListener("click",getClick);
         }
+    }
+    temperaryData = list_of_questions;
+    console.log(list_of_questions);
+    console.log(temperaryData) 
 }
-
-
+let global_scores = 0
 // Valuate the the result
-function getClick(event){
-    if(index < temperaryData.length){
-        if (temperaryData[index-1]["corr_answer"] == event.target.id){
+function getClick(event){ 
+    
+    if((index-1) < temperaryData.length){
+        if (temperaryData[index]["corr_answer"] == event.target.id){
             console.log(true)
-            console.log(temperaryData[index]["corr_answer"])
-        }else{console.log(false)}
-        getDataFromLocalStorage()
-    }else{
+            global_scores  +=1;
+        }else{
+            console.log(false)
+        }
+        global_scores  = index;
+        
+    }
+    else{
         screenToDisplay.style.display = "none";
         correction.style.display = "block";
+        console.log(global_scores)
+        console.log((global_scores/temperaryData.length)*100)
     }
+    index+=1;
+    getDataFromLocalStorage()
 }
 function tryAgain(){
     screenToDisplay.style.display = "block";
     correction.style.display = "none";
     index = 0;
     progrees = 0
-    requestData()
+   requestData() 
 }
+
+
 // Good and Bad answers
 let nClick = 0
 let created = true;

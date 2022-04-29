@@ -145,8 +145,8 @@ header {
 }
 .correction{
     width: 60%;
-    margin-top: 20px;
     margin: auto;
+    margin-top: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
