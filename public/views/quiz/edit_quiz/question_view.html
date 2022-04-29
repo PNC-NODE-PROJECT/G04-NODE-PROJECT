@@ -30,16 +30,50 @@
 
 <!-- icon to show question creating template -->
 <div class="create-question">
-    <i class="fas fa-plus"></i>
+    <a href="#create_form" style="color: #fff;"><i class="fas fa-plus"></i></a>
 </div>
-
+<!-- To content creating more question -->
+<div class="create-template" style="display: none;" id="create_form">
+    <div class="template-header">
+        <h3 class="text-center">Create Question</h3>
+    </div>
+    <div class="container-create-question" >
+        <form>
+            <div class="question m-2 ">
+                <input type="text" class="form-control p-3" placeholder="e.g: What is your question?" id="question" required>
+            </div>
+            <div class="form-group d-flex">
+                <input type="text" class="form-control  m-2 p-2" placeholder="e.g: Anwer 1" id="answer1" required> 
+                <input type="text" class="form-control  m-2 p-2" placeholder="e.g: Answer 2" id="answer2" required>
+            </div>
+            <div class="form-group d-flex">
+                <input type="text" class="form-control  m-2 p-2" placeholder="e.g: Answer 3" id="answer3" required> 
+                <input type="text" class="form-control  m-2 p-2" placeholder="e.g: Answer 4" id="answer4" required>
+            </div>
+            <div class="form-group d-flex mt-3">
+                <label class="mx-2">Choose correct answer:</label>
+                <select class="form-select w-25 mx-2" id="corr-ans" aria-label="Default select example">
+                    <option selected disabled  hidden value="">Correct answer</option>
+                    <option value="A">Answer 1</option>
+                    <option value="B">Answer 2</option>
+                    <option value="C">Answer 3</option>
+                    <option value="D">Answer 4</option>
+                </select>
+            </div>
+            <div class="form_footer mt-4">
+                <button type="button" class="btn btn-danger mx-1" id="cancel-create">Cancel</button>
+                <button type="button" class="btn btn-primary mx-1" onclick="createQuestion()">Create</button>
+            </div>
+        </form>
+    </div>
+</div>
 <!--Start Display form to update question or answers -->
-<div class="update-template" style="display: none;">
+<div class="update-template" id="update-form" style="display: none;">
     <div class="template-header">
         <h3 class="text-center">Update Question</h3>
     </div>
     <div class="container-create-question" >
-        <form>
+        <form >
             <div class="question m-2 ">
                 <input type="text" class="form-control p-3" placeholder="e.g: What's your question?" id="up-question" required>
             </div>
@@ -75,41 +109,7 @@
 </div>
 <!-- END Display all questions to edit or delete from DOM and server also -->
 
-<!-- To content creating more question -->
-<div class="create-template " style="display: none;">
-    <div class="template-header">
-        <h3 class="text-center">Create Question</h3>
-    </div>
-    <div class="container-create-question" >
-        <form>
-            <div class="question m-2 ">
-                <input type="text" class="form-control p-3" placeholder="e.g: What is your question?" id="question" required>
-            </div>
-            <div class="form-group d-flex">
-                <input type="text" class="form-control  m-2 p-2" placeholder="e.g: Anwer 1" id="answer1" required> 
-                <input type="text" class="form-control  m-2 p-2" placeholder="e.g: Answer 2" id="answer2" required>
-            </div>
-            <div class="form-group d-flex">
-                <input type="text" class="form-control  m-2 p-2" placeholder="e.g: Answer 3" id="answer3" required> 
-                <input type="text" class="form-control  m-2 p-2" placeholder="e.g: Answer 4" id="answer4" required>
-            </div>
-            <div class="form-group d-flex mt-3">
-                <label class="mx-2">Choose correct answer:</label>
-                <select class="form-select w-25 mx-2" id="corr-ans" aria-label="Default select example">
-                    <option selected disabled  hidden value="">Correct answer</option>
-                    <option value="A">Answer 1</option>
-                    <option value="B">Answer 2</option>
-                    <option value="C">Answer 3</option>
-                    <option value="D">Answer 4</option>
-                </select>
-            </div>
-            <div class="form_footer mt-4">
-                <button type="button" class="btn btn-danger mx-1" id="cancel-create">Cancel</button>
-                <button type="button" class="btn btn-primary mx-1" onclick="createQuestion()">Create</button>
-            </div>
-        </form>
-    </div>
-</div>
+
 
     <script src="edit.js"></script>
 </body>

@@ -100,6 +100,12 @@ header {
     align-items: center;
     justify-content:center;
 }
+.container-fluid .answers .box .w-50{
+    font-size: 22px;
+    height: 20vh;
+    cursor: pointer;
+
+}
 .container-fluid .answers .box .w-50:hover{
     background: green;
 }
@@ -205,14 +211,14 @@ header {
 
 /* Create questions */
 
-.create-template,.update-template{
+.update-template{
     position: absolute;
     height: 100%;
     width: 100%;
     top: 60px;
     background: rgba(85, 84, 84, 0.647);
+    padding-bottom:100px;
     z-index: 1;
-
 }
 .container-create-question{
     width: 50%;
@@ -222,12 +228,7 @@ header {
     /* border-top: 8px solid #0593E3; */
     padding: 20px 30px;
     text-align: right;
-    /* box-shadow: -15px -15px 15px rgba(255,255,255,0.2),
-                15px 15px 15px rgba(0, 0, 0, 0.1),
-                inset -5px -5px 5px rgba(255, 255, 255, 0.2),
-                inset 5px 5px 5px rgba(0, 0, 0, 0.1); */
 }
-
 .template-header{
     background: #0593E3;
     width: 50%;

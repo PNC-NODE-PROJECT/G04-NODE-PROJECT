@@ -3,6 +3,9 @@ function requestDataFromServer(){
     axios.get("/questions/display_question").then((result)=>{
         let list_of_questions = result.data;
         showQuestionInDom(list_of_questions);
+        if (list_of_questions.length == 0){
+            show(content_create_questions);
+        }
     })
 }
 // SEND DATA TO SERVER TO CREATE MORE QUESTION 
@@ -155,6 +158,7 @@ function checkValidation(title,ans1,ans2,ans3,ans4,correct_answer){
 // TO SHOW THE TEMPLATE OF CREATING NEW QUESTION
 function showCreateTemplate(){
     show(content_create_questions);
+
 }
 
 // TO SHOW TEMPLATE OF UPDATING QUESTION
@@ -208,6 +212,7 @@ function clickQuestion(e){
     }
 }
 
+
 // CREAT QUESTION
 let question_create = document.querySelector("#question");
 let answer1_create = document.querySelector("#answer1");
@@ -234,4 +239,5 @@ cancel_update.addEventListener("click",cancel);
 
 let id = "";
 let screenToDisplay = document.querySelector(".container-questions");
+
 requestDataFromServer();
