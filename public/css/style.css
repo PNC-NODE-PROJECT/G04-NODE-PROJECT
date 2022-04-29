@@ -102,12 +102,12 @@ header {
 }
 .container-fluid .answers .box .w-50{
     font-size: 22px;
-    height: 20vh;
+    height: 18vh;
     cursor: pointer;
 
 }
 .container-fluid .answers .box .w-50:hover{
-    background: green;
+    background: rgba(1, 112, 222, 0.245);
 }
 .card_footer{
     display: flex;
@@ -140,9 +140,8 @@ header {
 }
 /* Range of Task bar */
 .range{
-    width: 1%;
     height: 3vh;
-    background: blue;
+    background: #0593E3;
 }
 .subRange{
     width: 100%;
@@ -168,23 +167,23 @@ header {
     align-items: center;
 }
 .correctionSummary{
-    width: 60%;
+    width: 100%;
     margin-top: 20px;
     margin: auto;
     padding: 10px;
 }
 .summary{
-    background: rgb(182, 182, 182);
+    background: rgba(13, 151, 231, 0.463);
     width: 100%;
-    padding: 6px;
+    padding: 8px;
+    text-align: center;
 
 }
 .questionSummary{
-    background:rgb(215, 219, 255);
-    border-bottom: 1px solid black;
-    /* margin-top: 20px; */
-    /* width: 100px; */
+    background:rgba(215, 219, 255, 0.306);
+    border-bottom: 3px solid rgba(3, 148, 251, 0.875);
     justify-content: space-between;
+    padding: 8px;
 }
 
 

@@ -1,4 +1,5 @@
 
+
 function requestData(){
     axios.get( "/questions/display_question").then((result)=>{
         let list_of_questions = result.data;
@@ -84,10 +85,13 @@ function playQuiz(list_of_questions) {
         range.style.width = progrees + "%";
         let subRange = document.createElement("div")
         subRange.className = "subRange";
-        let textRange = document.createElement("h6");
+        let textRange = document.createElement("h5");
         
-        textRange.textContent = index +'/'+ list_of_questions.length;
-        subRange.appendChild(textRange);
+        let count_question = document.createElement("div");
+        count_question.classList = "card p-2 mb-2 mt-3";
+        textRange.textContent = index +'/ '+ list_of_questions.length + "Questions";
+        count_question.appendChild(textRange);
+        subRange.appendChild(count_question);
         content_question.appendChild(subRange);
         content_question.appendChild(range);
         screenToDisplay.appendChild(content_question);
@@ -104,7 +108,7 @@ function playQuiz(list_of_questions) {
                 buttons[i].addEventListener("click",getClick);
             }
         }
-}
+    }
 
 
 // Valuate the the result
@@ -130,7 +134,8 @@ function tryAgain(){
     requestData()
 }
 // Good and Bad answers
-let nClick = 0
+let nClick = 0;
+
 let created = true;
 function viewCorrection(){
     let i = 0;
