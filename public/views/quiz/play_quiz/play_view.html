@@ -13,42 +13,46 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-        <!-- start header container  -->
-        <header class="header ">
-            <div class="header-left">
-                <div class="logo">
-                    <a href="../../../index.html"><img class="img" src="../../../images/quiz-logo.png" style="width: 70px;"></a>
-                </div>
-                <a href="../../../index.html" class="logo-title">Practice English</a>
-            </div>
-            <div class="header-right">
-                <a href="" class="btn btn-primary ">Sign in</a>
-                <a href="../../../index.html" type="button" class="btn btn-primary"><i class='fas fa-home'></i></a>
-            </div>
-        </header>
-        <div class="container-questions">
+<!-- start header container  -->
+<header class="header ">
+    <div class="header-left">
+        <div class="logo">
+            <a href="../../../index.html"><img class="img" src="../../../images/quiz-logo.png" style="width: 70px;"></a>
+        </div>
+        <a href="../../../index.html" class="logo-title">Practice English</a>
+    </div>
+    <div class="header-right">
+        <a href="" class="btn btn-primary ">Sign in</a>
+        <a href="../../../index.html" type="button" class="btn btn-primary"><i class='fas fa-home'></i></a>
+    </div>
+</header>
 
+<!-- DISPLAY QUIZZ TO PLAY -->
+<div class="container-questions">
+</div>
+
+<!-- THE VIEW CORRECTIONS -->
+<div class="correction">
+    <div class="correctionScore">
+        <div class="scores">
+            <h2><span>10</span>/<span style="color:blue">20</span></h2>
         </div>
-    
-        <!-- THE VIEW CORRECTIONS -->
-        <div class="correction">
-            <div class="correctionScore">
-                <div class="scores">
-                    <h2><span>10</span>/<span style="color:blue">20</span></h2>
-                </div>
-                <h5>Here is your correctio and <br>also can view the your correction.</h5>
-                <div class="btnOptional">
-                    <button type="button" class="btn btn-primary" id="playAgain">Try again</button>
-                    <button type="button" class="btn btn-primary" id="viewCorrection">View Correction</button>
-                </div>
-            </div>
+        <h5>Here is your correctio and <br>also can view the your correction.</h5>
+        <div class="btnOptional">
+            <button type="button" class="btn btn-primary" id="playAgain">Try again</button>
+            <button type="button" class="btn btn-primary" id="viewCorrection">View Correction</button>
         </div>
-        <!--GOOD AND BAD ANSWERS -->
-        <div class="correctionSummary">
-            <div class="summary">
-                <h4>Summary</h4>
-            </div>
-        </div>
+    </div>
+</div>
+
+<!--GOOD AND BAD ANSWERS -->
+<div class="correctionSummary">
+    <div class="summary">
+        <h4>Summary</h4>
+    </div>
+</div>
+
+
     <script src="play.js"></script>
 </body>
 </html>

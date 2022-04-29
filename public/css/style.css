@@ -45,16 +45,20 @@ header {
 .header-right .material-icons {
     text-decoration: none;
 }
-.container { 
+.contain{ 
     display: flex;
     justify-content: center;
-    margin: 60px auto;
-    width: 80%;
+    margin: 100px auto;
+    width: 60%;
+    background: rgba(19, 223, 238, 0.186);
+    height: 60vh;
+    padding: 50px 20px;
+    border-radius: 8px;
 }
-.container .card{
+/* .contain .card{
     padding: 6px;
-    box-shadow: 1px 2px 8px 2px #aaaa;
-}
+    width: 30%;
+} */
 
 .container-fluid{
     background: rgb(209, 199, 199);
@@ -93,8 +97,33 @@ header {
 
 .card_footer{
     display: flex;
+    margin-top: 10px;
+}
+.card_footer #edit_question, .card_footer #delete_question{
+    width: 45px;
+    height: 45px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    padding: 6px;
+    color: #fff;
+    cursor: pointer;
+    margin: 6px;
+}
+.card_footer #edit_question{
+    background: #0593E3;
 }
 
+.card_footer #delete_question{
+    background-color: red;
+    font-size: 26px;
+}
+.card_footer #delete_question:hover, .card_footer #edit_question:hover{
+    transform: scale(1.1);
+    transition: all ease-in .6s;
+}
 /* Range of Task bar */
 .range{
     width: 1%;
@@ -143,30 +172,11 @@ header {
     width: 100px;
     justify-content: space-between;
 }
-.card_footer #edit_question, .card_footer #delete_question{
-    width: 45px;
-    height: 45px;
-    border-radius: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    padding: 6px;
-    color: #fff;
-    cursor: pointer;
-}
-.card_footer #edit_question{
-    background: #0593E3;
-}
 
-.card_footer #delete_question{
-    background-color: red;
-    font-size: 26px;
-
-}
 
 .create-question{
     position: absolute;
+    position: fixed;
     background: #1081eb;
     font-size: 30px;
     left: 120px;
@@ -180,11 +190,16 @@ header {
     cursor: pointer;
     color: #fff;
 }
+.create-question:hover{
+    transform: scale(1.1);
+    transition: .6s ease-in-out;
+}
 
 /* Create questions */
-.create-template{
+
+.create-template,.update-template{
     position: absolute;
-    height: 100vh;
+    height: 100%;
     width: 100%;
     top: 60px;
     background: rgba(85, 84, 84, 0.647);

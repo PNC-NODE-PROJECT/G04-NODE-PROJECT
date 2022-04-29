@@ -1,22 +1,20 @@
-// let URL = "http://192.168.11.15:8080"
-
-function sendDataToServer(response) {
-    axios.post("/questions/add_question",response).then(requestDataFromServer());
-    console.log(response);
-}
-
+// CLIENT REQUEST DATA FROM SERVER TO DISPLAY IN THE DOM
 function requestDataFromServer(){
     axios.get("/questions/display_question").then((result)=>{
         let list_of_questions = result.data;
-        showAllQuestion(list_of_questions);
+        showQuestionInDom(list_of_questions);
     })
 }
+// SEND DATA TO SERVER TO CREATE MORE QUESTION 
+function sendDataToServer(response) {
+    axios.post("/questions/add_question",response).then(requestDataFromServer());
+}
 
-function showAllQuestion(list_of_questions){
+// SHOW ALL THE QUESTIONS IN THE DOM IN BROSWER
+function showQuestionInDom(list_of_questions){
     while (screenToDisplay.firstChild) {
         screenToDisplay.removeChild(screenToDisplay.lastChild);
     }
-    // if (list_of_questions.length !== 0){ 
         for (let index=0;index<list_of_questions.length;index++){
         // GET QUESTION FROM ARRAY OF OBJECTS
         let content_question  = document.createElement("div");
@@ -84,7 +82,13 @@ function showAllQuestion(list_of_questions){
     delete_Questions.forEach(btn => {
         btn.addEventListener("click",clickQuestion);
     });
+    let edit_Questions = document.querySelectorAll("#edit_question");
+    edit_Questions.forEach(btn => {
+        btn.addEventListener("click",clickQuestion);
+    });
 }
+
+// CREATE QUESTION IN SERVER
 function createQuestion(){
     let title = question_create.value;
     let ans1 = answer1_create.value;
@@ -117,38 +121,79 @@ function createQuestion(){
         alert("Please input all the fill!");
     }
 }
+
+// TO SHOW THE TEMPLATE OF CREATING NEW QUESTION
 function showCreateTemplate(){
-    show(content_create_questions)
+    show(content_create_questions);
 }
+
+// TO SHOW TEMPLATE OF UPDATING QUESTION
+function showUpdateTemplate(data){
+    question_create.value = data.title;
+    answer1_create.value = data.answers.A;
+    answer2_create.value = data.answers.B;
+    answer3_create.value = data.answers.C;
+    answer4_create.value = data.answers.D;
+    update_template.style.display = "block";
+    
+}
+
+// CANCEL
+function cancel(e){
+    if (e.target.id == "cancel-update"){
+        hide(update_template);
+    } else if (e.target.id == "cancel-create"){
+        hide(content_create_questions);
+    }
+}
+
+// TO SHOW ELEMENT
 function show(element){
     element.style.display = "block";
-    document.body.style.overflow = "hidden";
-    // alert.style.display = "block";
 }
-function hide(){
-    content_create_questions.style.display = "none";
-    document.body.style.overflow = "auto";
+
+// TO HIDE ELEMENT
+function hide(e){
+    e.style.display = "none";
 }
+
+// TO CHECK ACTION OF CLIENT CLICK
 function clickQuestion(e){
     let id = e.target.parentElement.parentElement.id;
-    if (e.target.id = "delete_question"){
+    if (e.target.id === "delete_question"){
         if (confirm("Are you sure want to delet question?")){
             axios.delete("/questions/delete_question/"+id).then(requestDataFromServer());
         }
     }
-    if (e.target.id == "edit_question"){
-        alert("edit")
+    if (e.target.id === "edit_question"){
+        axios.get("/questions/display_question").then((result)=>{
+            result.data.forEach(data => {
+                if (id === data._id){
+                    showUpdateTemplate(data);
+                }
+                
+            });
+        })
     }
 }
+
+// CREAT QUESTION
 let question_create = document.querySelector("#question");
 let answer1_create = document.querySelector("#answer1");
 let answer2_create = document.querySelector("#answer2");
 let answer3_create = document.querySelector("#answer3");
 let answer4_create = document.querySelector("#answer4");
 let corr_answer = document.querySelector("#corr-ans");
-// let alert = document.querySelector(".alert");
-let screenToDisplay = document.querySelector(".container-questions");
 let content_create_questions = document.querySelector(".create-template");
 let btn_add = document.querySelector(".create-question");
 btn_add.addEventListener("click",showCreateTemplate);
+let cancel_create  = document.querySelector("#cancel-create");
+cancel_create.addEventListener("click",cancel);
+
+// UPDATE QUESTION
+let update_template = document.querySelector(".update-template");
+let cancel_update = document.querySelector("#cancel-update");
+cancel_update.addEventListener("click",cancel);
+
+let screenToDisplay = document.querySelector(".container-questions");
 requestDataFromServer();
