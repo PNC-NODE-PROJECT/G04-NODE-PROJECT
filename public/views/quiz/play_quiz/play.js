@@ -66,6 +66,7 @@ function playQuiz(list_of_questions) {
         // CREATE LIST FOR ANSWER-4
         let answer_4 = document.createElement("div");
         answer_4.classList = "btn w-50";
+        answer_4.id = "D";
         answer_4.textContent = list_of_questions[index]["answers"]["D"];
         box2.appendChild(answer_3);
         box2.appendChild(answer_4);
@@ -74,7 +75,9 @@ function playQuiz(list_of_questions) {
         content_answers.appendChild(box2);
         content_question.appendChild(card);
         content_question.appendChild(content_answers);
-        
+        // INCREMENT INDEX BY 1
+        index += 1;
+        progrees += (100/list_of_questions.length);
             // RANGE PROGREES BAR;
         let range = document.createElement("div");
         range.className = "range";
@@ -89,29 +92,34 @@ function playQuiz(list_of_questions) {
         content_question.appendChild(range);
         screenToDisplay.appendChild(content_question);
         temperaryData = list_of_questions;
-        // INCREMENT INDEX BY 1
-        index += 1;
-        progrees += (100/list_of_questions.length);
+
+    } else{
+        screenToDisplay.style.display = "none";
+        correction.style.display = "block";
     }
         // Create button click
         let buttons = document.querySelectorAll(".btn");
         for(let i=0; i<buttons.length; i++){
-            if(i> 0){buttons[i].addEventListener("click",getClick);}
+            if(i> 0){
+                buttons[i].addEventListener("click",getClick);
+            }
         }
 }
 
 
 // Valuate the the result
 function getClick(event){
-    if(index < temperaryData.length){
+    if(index <= temperaryData.length){
+
         if (temperaryData[index-1]["corr_answer"] == event.target.id){
             console.log(true)
-            console.log(temperaryData[index]["corr_answer"])
-        }else{console.log(false)}
-        getDataFromLocalStorage()
-    }else{
-        screenToDisplay.style.display = "none";
-        correction.style.display = "block";
+            console.log(event.target.textContent)
+        }else{
+            console.log(false);
+            console.log(event.target.textContent);
+        }
+        getDataFromLocalStorage();
+    
     }
 }
 function tryAgain(){
