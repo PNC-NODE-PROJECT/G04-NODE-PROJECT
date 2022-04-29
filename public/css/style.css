@@ -2,7 +2,7 @@ body{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-image: url(../images/online-education-background.png);
+    background-image: url(../images/background.png);
     background-position: 0px 3px;
     background-size: cover;
     position: relative;
@@ -29,6 +29,7 @@ header {
     display: flex;
     align-items: center;
     padding: 6px 36px;
+
 }
 
 .header-left .logo-title {
@@ -36,8 +37,8 @@ header {
     font-size: 26px;
     font-weight: 900;
     text-decoration: none;
-}
 
+}
 .header-right {
     margin-right: 10px;
     padding-right: 36px;

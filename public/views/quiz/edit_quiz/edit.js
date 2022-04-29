@@ -10,6 +10,11 @@ function sendDataToServer(response) {
     axios.post("/questions/add_question",response).then(requestDataFromServer());
 }
 
+// SEND DATA TO SERVER UPDATE QUESTION 
+function sendDataToServerToUpdate(response) {
+    axios.put("/questions/update_question/"+id,response).then(requestDataFromServer());
+}
+
 // SHOW ALL THE QUESTIONS IN THE DOM IN BROSWER
 function showQuestionInDom(list_of_questions){
     while (screenToDisplay.firstChild) {
@@ -90,12 +95,25 @@ function showQuestionInDom(list_of_questions){
 
 // CREATE QUESTION IN SERVER
 function createQuestion(){
-    let title = question_create.value;
-    let ans1 = answer1_create.value;
-    let ans2 = answer2_create.value;
-    let ans3 = answer3_create.value;
-    let ans4 = answer4_create.value;
-    let correct_answer = corr_answer.value;
+    let title = up_question.value;
+    let ans1 = up_answer1.value;
+    let ans2 = up_answer2.value;
+    let ans3 = up_answer3.value;
+    let ans4 = up_answer4.value;
+    let correct_answer = up_corr_answer.value;
+    if (update_template.style.display == "none"){
+        title = question_create.value;
+        ans1 = answer1_create.value;
+        ans2 = answer2_create.value;
+        ans3 = answer3_create.value;
+        ans4 = answer4_create.value;
+        correct_answer = corr_answer.value;
+    }
+    checkValidation(title,ans1,ans2,ans3,ans4,correct_answer);
+}
+
+// TO CHECK FORM VALIDATION INPUT FOMR
+function checkValidation(title,ans1,ans2,ans3,ans4,correct_answer){
     if (title !== ""||  ans1 !== "" || ans2 != "" || ans3 != "" || ans4 != ""){
         if (title[title.length-1] == "?"){
             if (correct_answer != ""){
@@ -109,8 +127,21 @@ function createQuestion(){
                     },
                     corr_answer: correct_answer
                 }
-                sendDataToServer(data);
-                hide();
+                if (update_template.style.display == "none"){
+                    sendDataToServer(data);
+                    alert("Create successful!");
+                    hide(content_create_questions);
+                } else{
+                    sendDataToServerToUpdate(data);
+                    alert("Update successful!");
+                    hide(update_template);
+                }
+                question_create.value = "";
+                answer1_create.value = "";
+                answer2_create.value = "";
+                answer3_create.value = "";
+                answer4_create.value = "";
+                corr_answer.value = "";
             } else {
                 alert("Please choose correct answer!!");
             }
@@ -121,7 +152,6 @@ function createQuestion(){
         alert("Please input all the fill!");
     }
 }
-
 // TO SHOW THE TEMPLATE OF CREATING NEW QUESTION
 function showCreateTemplate(){
     show(content_create_questions);
@@ -129,11 +159,12 @@ function showCreateTemplate(){
 
 // TO SHOW TEMPLATE OF UPDATING QUESTION
 function showUpdateTemplate(data){
-    question_create.value = data.title;
-    answer1_create.value = data.answers.A;
-    answer2_create.value = data.answers.B;
-    answer3_create.value = data.answers.C;
-    answer4_create.value = data.answers.D;
+    up_question.value = data.title;
+    up_answer1.value =  data.answers.A;
+    up_answer2.value =  data.answers.B;
+    up_answer3.value = data.answers.C;
+    up_answer4.value = data.answers.D;
+    up_corr_answer.value = data.corr_answer;
     update_template.style.display = "block";
     
 }
@@ -159,7 +190,7 @@ function hide(e){
 
 // TO CHECK ACTION OF CLIENT CLICK
 function clickQuestion(e){
-    let id = e.target.parentElement.parentElement.id;
+    id = e.target.parentElement.parentElement.id;
     if (e.target.id === "delete_question"){
         if (confirm("Are you sure want to delet question?")){
             axios.delete("/questions/delete_question/"+id).then(requestDataFromServer());
@@ -191,9 +222,16 @@ let cancel_create  = document.querySelector("#cancel-create");
 cancel_create.addEventListener("click",cancel);
 
 // UPDATE QUESTION
+let up_question = document.querySelector("#up-question");
+let up_answer1 = document.querySelector("#up-answer1");
+let up_answer2 = document.querySelector("#up-answer2");
+let up_answer3 = document.querySelector("#up-answer3");
+let up_answer4 = document.querySelector("#up-answer4");
+let up_corr_answer = document.querySelector("#up-corr-ans");
 let update_template = document.querySelector(".update-template");
 let cancel_update = document.querySelector("#cancel-update");
 cancel_update.addEventListener("click",cancel);
 
+let id = "";
 let screenToDisplay = document.querySelector(".container-questions");
 requestDataFromServer();
