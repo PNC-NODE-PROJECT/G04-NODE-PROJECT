@@ -46,15 +46,12 @@ function playQuiz(list_of_questions) {
         let answer_1 = document.createElement("div");
         answer_1.classList = "btn w-50";
         answer_1.id = "A";
-        answer_1.style.cursor = "pointer";
-        answer_1.style.height =  "20vh"
         answer_1.textContent = list_of_questions[index]["answers"]["A"];
         
         // CREATE LIST FOR ANSWER-2
         let answer_2 = document.createElement("div");
         answer_2.classList = "btn w-50";
         answer_2.id = "B";
-        answer_2.style.cursor = "pointer";
         answer_2.textContent = list_of_questions[index]["answers"]["B"];
         
         box1.appendChild(answer_1);
@@ -65,14 +62,11 @@ function playQuiz(list_of_questions) {
         let answer_3 = document.createElement("div");
         answer_3.classList = "btn w-50";
         answer_3.id = "C";
-        answer_3.style.cursor = "pointer"
         answer_3.textContent = list_of_questions[index]["answers"]["C"];
 
         // CREATE LIST FOR ANSWER-4
         let answer_4 = document.createElement("div");
         answer_4.classList = "btn w-50";
-        answer_4.style.cursor = "pointer";
-        answer_4.style.height =  "20vh";
         answer_4.id = "D";
         answer_4.textContent = list_of_questions[index]["answers"]["D"];
         box2.appendChild(answer_3);
@@ -82,8 +76,6 @@ function playQuiz(list_of_questions) {
         content_answers.appendChild(box2);
         content_question.appendChild(card);
         content_question.appendChild(content_answers);
-        
-        // RANGE PROGREES BAR;
         let range = document.createElement("div");
         range.className = "range";
         range.style.width = progrees + "%";
@@ -91,47 +83,47 @@ function playQuiz(list_of_questions) {
         subRange.className = "subRange";
         let textRange = document.createElement("h6");
         
-        textRange.textContent = index +'/'+ list_of_questions.length;
+        textRange.textContent = index+1 +'/'+ list_of_questions.length;
         subRange.appendChild(textRange);
         content_question.appendChild(subRange);
         content_question.appendChild(range);
         screenToDisplay.appendChild(content_question);
-        
-        // INCREMENT INDEX BY 1
-        progrees += (100/list_of_questions.length);
+        temperaryData = list_of_questions;
+
+    }else{
+        screenToDisplay.style.display = "none";
+        correction.style.display = "block";
+        document.querySelector("#max").textContent=(global_scores/list_of_questions.length)*100 +"%";
+        document.querySelector("#percent").textContent = 100+"%";
     }
     // Create button click
     let buttons = document.querySelectorAll(".btn");
     for(let i=0; i<buttons.length; i++){
-        if(i > 0){
+        if(i> 0){
             buttons[i].addEventListener("click",getClick);
         }
     }
-    temperaryData = list_of_questions;
-    console.log(list_of_questions);
-    console.log(temperaryData) 
+     // INCREMENT INDEX BY 1
+     index += 1;
+     // RANGE PROGREES BAR;
+     progrees += (100/list_of_questions.length);
 }
-let global_scores = 0
+let global_scores = 0;
+let good_and_bad = [];
+let id_good_and_bad = [];
 // Valuate the the result
-function getClick(event){ 
-    
-    if((index-1) < temperaryData.length){
-        if (temperaryData[index]["corr_answer"] == event.target.id){
-            console.log(true)
-            global_scores  +=1;
+function getClick(event){
+    if(index <= temperaryData.length){
+
+        if (temperaryData[index-1]["corr_answer"] == event.target.id){
+            good_and_bad.push(event.target.textContent)
+            id_good_and_bad.push(event.target.id);
+            global_scores+=1;
         }else{
-            console.log(false)
+            good_and_bad.push(event.target.textContent)
+            id_good_and_bad.push(event.target.id);
         }
-        global_scores  = index;
-        
     }
-    else{
-        screenToDisplay.style.display = "none";
-        correction.style.display = "block";
-        console.log(global_scores)
-        console.log((global_scores/temperaryData.length)*100)
-    }
-    index+=1;
     getDataFromLocalStorage()
 }
 function tryAgain(){
@@ -161,21 +153,22 @@ function viewCorrection(){
             span_question_summary.textContent = (i+1)+". "+data.title;
 
             let answer_summary = document.createElement("h5");
-            answer_summary.className = "px-3 text-success d-flex justify-content-between";
+            answer_summary.className = "px-3 d-flex justify-content-between";
             question_summary_good_and_bad.appendChild(answer_summary);
             let paragrap_Correction = document.createElement("p");
-            let get_key = Object.keys(data.answers);
-            for (let i = 0; i < get_key.length; i++){
-                if (get_key[i] == data.corr_answer)
-                {
-                    paragrap_Correction.textContent = data.answers[data.corr_answer];
-                }
-            }
             let checked_Correction = document.createElement("p");
             let icon = document.createElement("i");
-            icon.className = "fa fa-check-circle";
+            icon.className = "fa fa-check";
             checked_Correction.appendChild(icon);
-
+            if (id_good_and_bad[i] == data.corr_answer)
+            {
+                paragrap_Correction.textContent = good_and_bad[i];
+                answer_summary.style.color = "green";
+            }else{
+                paragrap_Correction.textContent = good_and_bad[i];
+                answer_summary.style.color = "red";
+                icon.className = "fa fa-remove";
+            }
             answer_summary.appendChild(paragrap_Correction);
             answer_summary.appendChild(checked_Correction);
 
