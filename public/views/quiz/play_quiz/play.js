@@ -13,6 +13,7 @@ function saveDataInLocalStorage(list_of_questions){
 }
 // Get data from local storage
 function getDataFromLocalStorage(){
+    
     let data = JSON.parse(localStorage.getItem("data"));
     playQuiz(data);
 }
@@ -36,7 +37,7 @@ function playQuiz(list_of_questions) {
         question.textContent = list_of_questions[index]['title'];
         card .appendChild(question);
         // CHANGE ANSWER ALL TIME WHENEVER USER CLICK NEXT
-        // // CREATE LIST FOR ANSWER-1
+        // CREATE LIST FOR ANSWER-1
         let content_answers = document.createElement("div");
         content_answers.classList = "answers";
 
@@ -76,10 +77,6 @@ function playQuiz(list_of_questions) {
         content_answers.appendChild(box2);
         content_question.appendChild(card);
         content_question.appendChild(content_answers);
-        // INCREMENT INDEX BY 1
-        index += 1;
-        progrees += (100/list_of_questions.length);
-            // RANGE PROGREES BAR;
         let range = document.createElement("div");
         range.className = "range";
         range.style.width = progrees + "%";
@@ -89,7 +86,7 @@ function playQuiz(list_of_questions) {
         
         let count_question = document.createElement("div");
         count_question.classList = "card p-2 mb-2 mt-3";
-        textRange.textContent = index +'/ '+ list_of_questions.length + "Questions";
+        textRange.textContent = index +'/'+ list_of_questions.length + " questions";
         count_question.appendChild(textRange);
         subRange.appendChild(count_question);
         content_question.appendChild(subRange);
@@ -97,95 +94,85 @@ function playQuiz(list_of_questions) {
         screenToDisplay.appendChild(content_question);
         temperaryData = list_of_questions;
 
-    } else{
+    }else{
         screenToDisplay.style.display = "none";
         correction.style.display = "block";
+        document.querySelector("#max").textContent= parseInt((global_scores/list_of_questions.length)*100);
+        document.querySelector("#percent").textContent = 100;
+        viewCorrection()
     }
-        // Create button click
-        let buttons = document.querySelectorAll(".btn");
-        for(let i=0; i<buttons.length; i++){
-            if(i> 0){
-                buttons[i].addEventListener("click",getClick);
-            }
+    // Create button click
+    let buttons = document.querySelectorAll(".btn");
+    for(let i=0; i<buttons.length; i++){
+        if(i> 0){
+            buttons[i].addEventListener("click",getClick);
         }
     }
-
-
+     // INCREMENT INDEX BY 1
+    index += 1;
+     // RANGE PROGREES BAR;
+    progrees += (100/list_of_questions.length);
+}
+let global_scores = 0;
+let good_and_bad = [];
+let id_good_and_bad = [];
 // Valuate the the result
 function getClick(event){
     if(index <= temperaryData.length){
 
         if (temperaryData[index-1]["corr_answer"] == event.target.id){
-            console.log(true)
-            console.log(event.target.textContent)
+            good_and_bad.push(event.target.textContent)
+            id_good_and_bad.push(event.target.id);
+            global_scores+=1;
         }else{
-            console.log(false);
-            console.log(event.target.textContent);
+            good_and_bad.push(event.target.textContent)
+            id_good_and_bad.push(event.target.id);
         }
-        getDataFromLocalStorage();
-    
     }
+    getDataFromLocalStorage()
 }
-function tryAgain(){
-    screenToDisplay.style.display = "block";
-    correction.style.display = "none";
-    index = 0;
-    progrees = 0
-    requestData()
-}
-// Good and Bad answers
-let nClick = 0;
 
-let created = true;
+// Good and Bad answers
 function viewCorrection(){
     let i = 0;
-    if(created){
-        for(let data of temperaryData)
-            {
-            let question_summary_good_and_bad = document.createElement("div");
-            question_summary_good_and_bad.className = "questionSummary px-4"
+    for(let data of temperaryData)
+        {
+        let question_summary_good_and_bad = document.createElement("div");
+        question_summary_good_and_bad.className = "questionSummary px-4 "
 
-            let question_summary = document.createElement("h5");
-            let span_question_summary = document.createElement("span");
-            question_summary.appendChild(span_question_summary);
-            question_summary_good_and_bad.appendChild(question_summary);
-            span_question_summary.textContent = (i+1)+". "+data.title;
+        let question_summary = document.createElement("h5");
+        question_summary.textContent = (i+1)+". "+data.title;
+        question_summary_good_and_bad.appendChild(question_summary);
 
-            let answer_summary = document.createElement("h5");
-            answer_summary.className = "px-3 text-success d-flex justify-content-between";
-            question_summary_good_and_bad.appendChild(answer_summary);
-            let paragrap_Correction = document.createElement("p");
-            let get_key = Object.keys(data.answers);
-            for (let i = 0; i < get_key.length; i++){
-                if (get_key[i] == data.corr_answer)
-                {
-                    paragrap_Correction.textContent = data.answers[data.corr_answer];
-                }
-            }
-            let checked_Correction = document.createElement("p");
-            let icon = document.createElement("i");
-            icon.className = "fa fa-check-circle";
-            checked_Correction.appendChild(icon);
-
-            answer_summary.appendChild(paragrap_Correction);
-            answer_summary.appendChild(checked_Correction);
-
-            correctSummary.appendChild(question_summary_good_and_bad);
-            i++;
-            created = false;
+        let answer_summary = document.createElement("h5");
+        answer_summary.className = "px-3 d-flex justify-content-between";
+        question_summary_good_and_bad.appendChild(answer_summary);
+        let paragrap_Correction = document.createElement("p");
+        let checked_Correction = document.createElement("p");
+        let icon = document.createElement("i");
+        icon.className = "fa fa-check";
+        checked_Correction.appendChild(icon);
+        if (id_good_and_bad[i] == data.corr_answer)
+        {
+            paragrap_Correction.textContent = good_and_bad[i];
+            answer_summary.style.color = "green";
+        }else{
+            paragrap_Correction.textContent = good_and_bad[i];
+            answer_summary.style.color = "red";
+            icon.className = "fa fa-remove";
         }
+        answer_summary.appendChild(paragrap_Correction);
+        answer_summary.appendChild(checked_Correction);
+
+        correctSummary.appendChild(question_summary_good_and_bad);
+        i++;
+        created = false;
     }
-   if(nClick == 0){correctSummary.style.display = "block"; nClick = 1}
-   else{correctSummary.style.display = "none"; nClick = 0}
 }
 // Create button click event
 requestData();
 let screenToDisplay = document.querySelector(".container-questions");
 let displayGoodAndBadAnswers= document.querySelector("#viewCorrection");
 let correctSummary = document.querySelector(".correctionSummary");
-correctSummary.style.display =  "none";
 let correction = document.querySelector(".correction");
 correction.style.display = "none";
-displayGoodAndBadAnswers.addEventListener("click",viewCorrection)
-
-document.querySelector("#playAgain").addEventListener("click",tryAgain);
