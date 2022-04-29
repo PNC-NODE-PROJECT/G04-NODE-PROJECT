@@ -48,10 +48,10 @@ header {
 .contain{ 
     display: flex;
     justify-content: center;
-    margin: 100px auto;
+    margin: 60px auto;
     width: 60%;
     background: rgba(19, 223, 238, 0.186);
-    height: 60vh;
+    height: auto;
     padding: 50px 20px;
     border-radius: 8px;
 }
@@ -73,10 +73,12 @@ header {
                 inset -5px -5px 5px rgba(255, 255, 255, 0.2),
                 inset 5px 5px 5px rgba(0, 0, 0, 0.1);
 }
-/* .container-fluid .question{
-    box-sizing: border-box;
 
-} */
+.container-fluid .question{
+    background: #0593E3;
+    margin: 0;
+    padding: 12px;
+}
 .container-fluid .answers{
     padding: 10px 20px;
     box-shadow: -15px -15px 15px rgba(255,255,255,0.2),
@@ -93,8 +95,13 @@ header {
     font-size: 18px; 
     cursor: auto;
     background: #0593E3;
+    display: flex;
+    align-items: center;
+    justify-content:center;
 }
-
+.container-fluid .answers .box .w-50:hover{
+    background: green;
+}
 .card_footer{
     display: flex;
     margin-top: 10px;
@@ -168,8 +175,8 @@ header {
 .questionSummary{
     background:rgb(215, 219, 255);
     border-bottom: 1px solid black;
-    margin-top: 20px;
-    width: 100px;
+    /* margin-top: 20px; */
+    /* width: 100px; */
     justify-content: space-between;
 }
 
