@@ -1,9 +1,63 @@
+function getQuizesTypeFromServer(){
+    axios.get("/quizes/quiz-title").then((result)=>{
+        let array_of_quiz = result.data;
+        displayQuizOptionalInDOM(array_of_quiz);
+    })
 
+}
+getQuizesTypeFromServer();
 
+function displayQuizOptionalInDOM(array_of_quiz){
+    // console.log(array_of_quiz);
+    for (let i=0; i<array_of_quiz.length;i++){
+
+        let card = document.createElement("div");
+        card.className = "card w-75 m-auto mt-2";
+        card.id = array_of_quiz[i]._id;
+
+        let card_body = document.createElement("div");
+        card_body.className = "card-body";
+        let h2 = document.createElement("h2");
+        h2.className = "card-title";
+        h2.textContent = array_of_quiz[i].title;
+        card_body.appendChild(h2);
+        card.appendChild(card_body);
+
+        let card_footer = document.createElement("div");
+        card_footer.className = "card-footer";
+        let btn_play = document.createElement("button");
+        btn_play.className = "btn btn-primary mx-2";
+        btn_play.id = "playQuiz";
+        btn_play.textContent = "Play Now";
+        let btn_create = document.createElement("a");
+        btn_create.className = "btn btn-primary mx-2";
+        btn_create.id = "createQuestion"
+        btn_create.href = "../edit_quiz/question_view.html"
+        btn_create.textContent = "Create Question";
+        card_footer.appendChild(btn_play)
+        card_footer.appendChild(btn_create)
+        card.appendChild(card_footer)
+        type_quizes.appendChild(card);
+    }
+
+    let buttons = document.querySelectorAll("#playQuiz");
+    buttons.forEach(btn => {
+        btn.addEventListener("click",playByQuizType);
+    });
+}
+
+function playByQuizType(){
+    // let quizID = e.target.parentElement.parentElement.id;
+    requestData();
+    show(screenToDisplay);
+    hide(type_quizes);
+    // alert(quizID)
+}
 function requestData(){
-    axios.get( "/questions/display_question").then((result)=>{
+    axios.get( "/questions/display_question/").then((result)=>{
+        console.log(result.data);
         let list_of_questions = result.data;
-        saveDataInLocalStorage(list_of_questions);
+        saveDataInLocalStorage(list_of_questions)
     })
 }
  // Store data in local storage
@@ -95,10 +149,9 @@ function playQuiz(list_of_questions) {
         temperaryData = list_of_questions;
 
     }else{
-        screenToDisplay.style.display = "none";
-        correction.style.display = "block";
-        document.querySelector("#max").textContent= parseInt((global_scores/list_of_questions.length)*100);
-        document.querySelector("#percent").textContent = 100;
+        hide(screenToDisplay);
+        show(correction);
+        document.querySelector("#max").textContent= parseInt((global_scores/list_of_questions.length)*100)+"%";
         viewCorrection()
     }
     // Create button click
@@ -132,13 +185,20 @@ function getClick(event){
     getDataFromLocalStorage()
 }
 
+
+function show(element){
+    element.style.display = "block";
+}
+function hide(element){
+    element.style.display = "none";
+}
 // Good and Bad answers
 function viewCorrection(){
     let i = 0;
     for(let data of temperaryData)
         {
         let question_summary_good_and_bad = document.createElement("div");
-        question_summary_good_and_bad.className = "questionSummary px-4 "
+        question_summary_good_and_bad.id = "questionSummary"
 
         let question_summary = document.createElement("h5");
         question_summary.textContent = (i+1)+". "+data.title;
@@ -156,8 +216,10 @@ function viewCorrection(){
         {
             paragrap_Correction.textContent = good_and_bad[i];
             answer_summary.style.color = "green";
+            question_summary_good_and_bad.classList = "alert alert-success";
         }else{
             paragrap_Correction.textContent = good_and_bad[i];
+            question_summary_good_and_bad.classList = "alert alert-danger";
             answer_summary.style.color = "red";
             icon.className = "fa fa-remove";
         }
@@ -170,9 +232,12 @@ function viewCorrection(){
     }
 }
 // Create button click event
-requestData();
+// requestData();
 let screenToDisplay = document.querySelector(".container-questions");
 let displayGoodAndBadAnswers= document.querySelector("#viewCorrection");
 let correctSummary = document.querySelector(".correctionSummary");
 let correction = document.querySelector(".correction");
 correction.style.display = "none";
+
+
+let type_quizes = document.querySelector(".container-quiz-type");

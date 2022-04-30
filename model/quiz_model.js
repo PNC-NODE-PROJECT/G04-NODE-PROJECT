@@ -1,3 +1,4 @@
+
 const mongoose = require("mongoose");
 
 // TODO: Connect to MangoDB
@@ -19,7 +20,8 @@ db.once("open", function () {console.log("Connected successfully");});
         D:{type:String,require: true}
     },   
     corr_answer:{type:String, require:true},
-    userId: {type: mongoose.Schema.Types.ObjectId,ref: "users"}
+    userId: {type: mongoose.Schema.Types.ObjectId,ref: "users"},
+    
   } 
  )
 
@@ -32,8 +34,26 @@ const UserSchema = new mongoose.Schema(
     password: {type: String,require: true}
   }
 )
+
+// Quiz Schema 
+const quizSchema = new mongoose.Schema(
+  {
+    quizTitle:{
+      type: String,
+      require: true
+    },
+    arrayQuestions: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "display_questions"
+      }
+    ]
+  }
+)
 // Create the Model for the Tasks collection from Schema
 const questionModel = mongoose.model("display_questions",QuestionSchema);
 const userModel = mongoose.model("users",UserSchema);
+const quizModel = mongoose.model("quiz_types",quizSchema);
 module.exports.questionModel = questionModel;
 module.exports.userModel = userModel;
+module.exports.quizModel = quizModel;

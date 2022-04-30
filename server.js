@@ -10,5 +10,7 @@ app.listen(PORT, () => {console.log("http://localhost:"+PORT)});
 // Route for display 
 let questionsRouter = require('./routes/question_route');
 let usersRouter = require('./routes/user_route');
+let quizesRouter = require('./routes/quiz_route');
 app.use('/questions', questionsRouter)
-app.use('/users', usersRouter)
+app.use('/users', usersRouter);
+app.use('/quizes', quizesRouter);

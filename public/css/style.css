@@ -104,6 +104,7 @@ header {
     font-size: 22px;
     height: 18vh;
     cursor: pointer;
+    background: #0593E3;
 
 }
 .container-fluid .answers .box .w-50:hover{
@@ -152,7 +153,7 @@ header {
 .correction{
     width: 80%;
     margin: auto;
-    margin-top: 50px;
+    margin-top: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -167,11 +168,17 @@ header {
     padding: 8px;
     margin: 0 10px;
     border-top: 8px solid #0593E3;
-    border-radius: 8px;
+    border-radius: 2px;
 }
-.scores{
-    display: flex;justify-content: center;
+.correctionScore .box .scores{
+    display: flex;
+    /* display: flex; */
+    justify-content: space-between;
+    /* justify-content: center; */
     align-items: center;
+}
+.correctionScore .box .scores span{
+    font-size: 30px;
 }
 .correctionSummary{
     width: 100%;
@@ -186,11 +193,9 @@ header {
     text-align: center;
 
 }
-.questionSummary{
-    background:rgba(215, 219, 255, 0.306);
-    border-bottom: 3px solid rgba(3, 148, 251, 0.875);
+#questionSummary{
     text-align: left;
-    padding: 8px;
+    padding: 8px 12px;
 }
 
 
@@ -242,4 +247,25 @@ header {
     margin-top: 80px;
     color: #fff;
     padding: 10px 0;
+}
+
+
+/*  TYPE OF QUIZES */
+.container-quiz-type{
+    /* display: flex; */
+    width: 60%;
+    margin: 50px auto;
+    background-color: rgba(199, 199, 239, 0.507);
+    height: auto;
+    border-radius: 8px;
+    /* display: flex; */
+    /* align-items: center;
+    justify-content: center; */
+    padding: 20px;
+}
+.container-quiz-type .card{
+    margin: 20px;
+    width: 100px;
+    background: rgba(222, 222, 233, 0.881);
+    /* margin: auto; */
 }
