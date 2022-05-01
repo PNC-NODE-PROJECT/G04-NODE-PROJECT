@@ -271,3 +271,13 @@ header {
     transform: scale(1.1);
     transition: .8s;
 }
+
+.container-quiz-none{
+    width: 40%;
+    height: 60vh;
+    margin: auto;
+    background: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -10,15 +10,6 @@ function getQuizesTypeFromServer(){
 let array_of_quiz = [];
 getQuizesTypeFromServer();
 
-// function displayQuizOptionalInDOM(array_of_quiz){
-//     array_of_quiz.forEach(quiz=>{
-//         let option = document.createElement("option");
-//         option.id = quiz._id;
-//         option.value = quiz.title;
-//         option.textContent = quiz.title;
-//         document.querySelector(".form-select").appendChild(option);
-//     })
-// }
 function displayQuizOptionalInDOM(array_of_quiz){
     // console.log(array_of_quiz);
     for (let i=0; i<array_of_quiz.length;i++){
@@ -67,8 +58,8 @@ function viewQuizTypes(e){
     hide(container_quiz);
 }
 // CLIENT REQUEST DATA FROM SERVER TO DISPLAY IN THE DOM
-function requestDataFromServer(id){
-    axios.get("/questions/quiz-title/"+id).then((result)=>{
+function requestDataFromServer(quizID) {
+    axios.get("/questions/quiz-title/"+quizID).then((result)=>{
         let list_of_questions = result.data;
         showQuestionInDom(list_of_questions);
         if (list_of_questions.length == 0){
