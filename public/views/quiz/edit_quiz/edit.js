@@ -1,5 +1,5 @@
 
-
+// GET TYPE OF QUIZES FROM SERVER
 function getQuizesTypeFromServer(){
     axios.get("/quizes/quiz-title").then((result)=>{
         array_of_quiz = result.data;
@@ -10,6 +10,7 @@ function getQuizesTypeFromServer(){
 let array_of_quiz = [];
 getQuizesTypeFromServer();
 
+// DISPLAY QUIZ CARD IN DOM
 function displayQuizOptionalInDOM(array_of_quiz){
     // console.log(array_of_quiz);
     for (let i=0; i<array_of_quiz.length;i++){
@@ -46,7 +47,7 @@ function displayQuizOptionalInDOM(array_of_quiz){
         btn.addEventListener("click",viewQuizTypes);
     });
 }
-
+// GET QUIZ ID BY EVENT TARGET 
 let quizID = 0 ;
 function viewQuizTypes(e){
     quizID = e.target.parentElement.parentElement.id;
@@ -315,4 +316,3 @@ let container_quiz =document.querySelector(".container-quiz");
 let id = "";
 let screenToDisplay = document.querySelector(".container-questions");
 
-// requestDataFromServer();

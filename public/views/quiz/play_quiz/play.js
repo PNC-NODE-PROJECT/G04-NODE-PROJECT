@@ -1,15 +1,15 @@
+// GET QUIZ TYPE FROM THE SERVER
 function getQuizesTypeFromServer(){
     axios.get("/quizes/quiz-title").then((result)=>{
         array_of_quiz = result.data;
-        // console.log(array_of_quiz);
         displayQuizOptionalInDOM(array_of_quiz);
     })
 }
 let array_of_quiz = [];
 getQuizesTypeFromServer();
 
+// DISPLAY QUIZ TYPE IN THE DOM
 function displayQuizOptionalInDOM(array_of_quiz){
-    // console.log(array_of_quiz);
     for (let i=0; i<array_of_quiz.length;i++){
 
         let card = document.createElement("div");
@@ -33,16 +33,9 @@ function displayQuizOptionalInDOM(array_of_quiz){
         btn_play.id = "playQuiz";
         btn_play.textContent = "Practice Now";
         card_footer.appendChild(btn_play)
-        // card_footer.appendChild(btn_create)
         card.appendChild(card_footer)
         type_quizes.appendChild(card);
     }
-    // let btn_create = document.createElement("a");
-    // btn_create.className = "btn btn-primary mx-5 mt-5 text-align-left";
-    // btn_create.id = "createQuestion"
-    // btn_create.href = "../edit_quiz/question_view.html"
-    // btn_create.textContent = "Create Question";
-    // type_quizes.appendChild(btn_create)
 
     let buttons = document.querySelectorAll("#playQuiz");
     buttons.forEach(btn => {
@@ -50,13 +43,13 @@ function displayQuizOptionalInDOM(array_of_quiz){
     });
 }
 
+// GET QUIZ ID BY EVENT TARGET
 let quizID = 0 ;
 function playByQuizType(e){
     quizID = e.target.parentElement.parentElement.id;
     requestData(quizID);
     show(screenToDisplay);
     hide(type_quizes);
-    // alert(quizID)
 }
 function requestData(id){
     axios.get("/questions/quiz-title/"+id).then((result)=>{
@@ -64,15 +57,7 @@ function requestData(id){
         if (result.data.length != 0){
             saveDataInLocalStorage(result.data)
         }else {
-            // displayQuizOptionalInDOM(array_of_quiz)
-            //   alert("I want to say that you are didn't add question yet.")
-            // let textConten = document.createElement("h4");
-            // textConten = "I love cambodia;"
-            // container.appendChild(textConten);
-            // type_quizes_none.appendChild(container);
             show(type_quizes_none);
-            // hide()
-           
         }
     })
 }
@@ -182,6 +167,7 @@ function playQuiz(list_of_questions) {
      // RANGE PROGREES BAR;
     progrees += (100/list_of_questions.length);
 }
+
 let global_scores = 0;
 let good_and_bad = [];
 let id_good_and_bad = [];
@@ -201,10 +187,12 @@ function getClick(event){
     getDataFromLocalStorage()
 }
 
-
+// TO SHOW ELEMENT
 function show(element){
     element.style.display = "block";
 }
+
+// TO HIDE ELEMENT
 function hide(element){
     element.style.display = "none";
 }
