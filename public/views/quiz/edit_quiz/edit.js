@@ -200,39 +200,35 @@ function createQuestion(){
 // TO CHECK FORM VALIDATION INPUT
 function checkValidation(title,ans1,ans2,ans3,ans4,correct_answer){
     if (title != "" &&  ans1 != "" && ans2 != "" && ans3 != "" && ans4 != ""){
-        if (title[title.length-1] == "?"){
-            if (correct_answer != ""){
-                let data = {
-                    title: title,
-                    answers: {
-                        A: ans1,
-                        B: ans2,
-                        C: ans3,
-                        D: ans4
-                    },
-                    corr_answer: correct_answer,
-                    quizId: quizID
-                }
-                if (update_template.style.display == "none"){
-                    sendDataToServer(data,quizID);
-                    alert("Create successful!");
-                    hide(content_create_questions);
-                } else{
-                    sendDataToServerToUpdate(data,quizID);
-                    alert("Update successful!");
-                    hide(update_template);
-                }
-                question_create.value = "";
-                answer1_create.value = "";
-                answer2_create.value = "";
-                answer3_create.value = "";
-                answer4_create.value = "";
-                corr_answer.value = "";
-            } else {
-                alert("Please choose correct answer!!");
+        if (correct_answer != ""){
+            let data = {
+                title: title,
+                answers: {
+                    A: ans1,
+                    B: ans2,
+                    C: ans3,
+                    D: ans4
+                },
+                corr_answer: correct_answer,
+                quizId: quizID
             }
+            if (update_template.style.display == "none"){
+                sendDataToServer(data,quizID);
+                alert("Create successful!");
+                hide(content_create_questions);
+            } else{
+                sendDataToServerToUpdate(data,quizID);
+                alert("Update successful!");
+                hide(update_template);
+            }
+            question_create.value = "";
+            answer1_create.value = "";
+            answer2_create.value = "";
+            answer3_create.value = "";
+            answer4_create.value = "";
+            corr_answer.value = "";
         } else {
-            alert("Question should end by question mark (?)");
+            alert("Please choose correct answer!!");
         }
     } else {
         alert("Please input all the fill!");

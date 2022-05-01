@@ -39,7 +39,7 @@ const UserSchema = new mongoose.Schema(
 // Quiz Schema 
 const quizSchema = new mongoose.Schema(
   {
-    quizTitle:{
+    title:{
       type: String,
       require: true
     }
