@@ -1,7 +1,7 @@
 function getQuizesTypeFromServer(){
     axios.get("/quizes/quiz-title").then((result)=>{
         array_of_quiz = result.data;
-        console.log(array_of_quiz);
+        // console.log(array_of_quiz);
         displayQuizOptionalInDOM(array_of_quiz);
     })
 }
@@ -60,12 +60,19 @@ function playByQuizType(e){
 }
 function requestData(id){
     axios.get("/questions/quiz-title/"+id).then((result)=>{
-        console.log(result.data);
-        let list_of_questions = result.data;
-        if (list_of_questions !== []){
-            saveDataInLocalStorage(list_of_questions)
-        } else {
-            displayQuizOptionalInDOM(array_of_quiz)
+        console.log(result.data.length);
+        if (result.data.length != 0){
+            saveDataInLocalStorage(result.data)
+        }else {
+            // displayQuizOptionalInDOM(array_of_quiz)
+            //   alert("I want to say that you are didn't add question yet.")
+            // let textConten = document.createElement("h4");
+            // textConten = "I love cambodia;"
+            // container.appendChild(textConten);
+            // type_quizes_none.appendChild(container);
+            show(type_quizes_none);
+            // hide()
+           
         }
     })
 }
@@ -160,7 +167,8 @@ function playQuiz(list_of_questions) {
     }else{
         hide(screenToDisplay);
         show(correction);
-        document.querySelector("#max").textContent= parseInt((global_scores/list_of_questions.length)*100)+"%";
+        
+        document.querySelector("#max").textContent = parseInt((global_scores/list_of_questions.length)*100)+"%";
         viewCorrection()
     }
     // Create button click
@@ -204,46 +212,46 @@ function hide(element){
 // Good and Bad answers
 function viewCorrection(){
     let i = 0;
+   if(temperaryData==[]){
     for(let data of temperaryData)
-        {
-        let question_summary_good_and_bad = document.createElement("div");
-        question_summary_good_and_bad.id = "questionSummary"
+    {
+    let question_summary_good_and_bad = document.createElement("div");
+    question_summary_good_and_bad.id = "questionSummary"
 
-        let question_summary = document.createElement("h5");
-        question_summary.textContent = (i+1)+". "+data.title;
-        question_summary_good_and_bad.appendChild(question_summary);
+    let question_summary = document.createElement("h5");
+    question_summary.textContent = (i+1)+". "+data.title;
+    question_summary_good_and_bad.appendChild(question_summary);
 
-        let answer_summary = document.createElement("h5");
-        answer_summary.className = "px-3 d-flex justify-content-between";
-        question_summary_good_and_bad.appendChild(answer_summary);
-        let paragrap_Correction = document.createElement("p");
-        let checked_Correction = document.createElement("p");
-        let icon = document.createElement("i");
-        icon.className = "fa fa-check";
-        checked_Correction.appendChild(icon);
-        if (id_good_and_bad[i] == data.corr_answer)
-        {
-            paragrap_Correction.textContent = good_and_bad[i];
-            answer_summary.style.color = "green";
-            question_summary_good_and_bad.classList = "alert alert-success";
-        }else{
-            paragrap_Correction.textContent = good_and_bad[i];
-            question_summary_good_and_bad.classList = "alert alert-danger";
-            answer_summary.style.color = "red";
-            icon.className = "fa fa-remove";
-        }
-        answer_summary.appendChild(paragrap_Correction);
-        answer_summary.appendChild(checked_Correction);
-
-        correctSummary.appendChild(question_summary_good_and_bad);
-        i++;
+    let answer_summary = document.createElement("h5");
+    answer_summary.className = "px-3 d-flex justify-content-between";
+    question_summary_good_and_bad.appendChild(answer_summary);
+    let paragrap_Correction = document.createElement("p");
+    let checked_Correction = document.createElement("p");
+    let icon = document.createElement("i");
+    icon.className = "fa fa-check";
+    checked_Correction.appendChild(icon);
+    if (id_good_and_bad[i] == data.corr_answer)
+    {
+        paragrap_Correction.textContent = good_and_bad[i];
+        answer_summary.style.color = "green";
+        question_summary_good_and_bad.classList = "alert alert-success";
+    }else{
+        paragrap_Correction.textContent = good_and_bad[i];
+        question_summary_good_and_bad.classList = "alert alert-danger";
+        answer_summary.style.color = "red";
+        icon.className = "fa fa-remove";
     }
-    array_of_quiz.forEach(quiz=>{
-        if (quiz._id === quizID){
-            document.querySelector(".quiz-title").textContent = quiz.title
-            console.log(quiz.title);
-        }
-    })
+    answer_summary.appendChild(paragrap_Correction);
+    answer_summary.appendChild(checked_Correction);
+    correctSummary.appendChild(question_summary_good_and_bad);
+    i++;
+}
+array_of_quiz.forEach(quiz=>{
+    if (quiz._id === quizID){
+        document.querySelector(".quiz-title").textContent = quiz.title
+    }
+   })
+}
 }
 // Create button click event
 // requestData();
@@ -255,3 +263,4 @@ correction.style.display = "none";
 
 
 let type_quizes = document.querySelector(".container-quiz-type");
+let type_quizes_none = document.querySelector(".container-quiz-none");
