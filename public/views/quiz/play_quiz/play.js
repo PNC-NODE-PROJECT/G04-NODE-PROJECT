@@ -167,7 +167,6 @@ function playQuiz(list_of_questions) {
     }else{
         hide(screenToDisplay);
         show(correction);
-        
         document.querySelector("#max").textContent = parseInt((global_scores/list_of_questions.length)*100)+"%";
         viewCorrection()
     }
@@ -212,7 +211,6 @@ function hide(element){
 // Good and Bad answers
 function viewCorrection(){
     let i = 0;
-   if(temperaryData==[]){
     for(let data of temperaryData)
     {
     let question_summary_good_and_bad = document.createElement("div");
@@ -251,7 +249,6 @@ array_of_quiz.forEach(quiz=>{
         document.querySelector(".quiz-title").textContent = quiz.title
     }
    })
-}
 }
 // Create button click event
 // requestData();
