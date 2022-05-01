@@ -1,13 +1,13 @@
 // URL REQUEST
 const URL = 'http://localhost:8000/quizes/'
 
-// ADD QUIZ
+// // ADD QUIZ
 function addQuiz(){
     hide(type_quizes);
     show(add_Quizes);
 }
 
-// REQUEST FROM INPUT
+// // REQUEST FROM INPUT
 function requestQuiz(){
     let quiz_titles = document.querySelector("#quiz_title");
     let title_of_quiz = quiz_titles.value;
@@ -42,17 +42,18 @@ function test(){
     type_quizes.appendChild(card);
 }
 
-// GET DATA FOR SERVER
-function disPlayQuiz(){
-    // REQUEST DATA FROM SERVER
+// GET QUIZ TYPE FROM THE SERVER
+function getQuizesTypeFromServer(){
     axios.get("/quizes/quiz-title").then((result)=>{
         array_of_quiz = result.data;
         displayQuizOptionalInDOM(array_of_quiz);
     })
 }
 let array_of_quiz = [];
-disPlayQuiz();
 // REFRESH DOM WHEN CALL
+getQuizesTypeFromServer();
+
+// // DISPLAY QUIZ TYPE IN THE DOM
 function displayQuizOptionalInDOM(array_of_quiz){
     for (let i=0; i<array_of_quiz.length;i++){
         let card = document.createElement("div");
@@ -70,36 +71,45 @@ function displayQuizOptionalInDOM(array_of_quiz){
         card_body.appendChild(para)
         let card_footer = document.createElement("div");
         card_footer.className = "card-footer";
+       
         let btn_play = document.createElement("button");
         btn_play.className = "btn btn-primary mx-1";
         btn_play.id = "playQuiz";
-        btn_play.textContent = "Practice Now";
+        btn_play.textContent = "PLAY";
 
         let btn_edit = document.createElement("button");
-        btn_edit.className = "btn btn-primary mx-1"
-        btn_edit.id = "editQuiz";
-        btn_edit.textContent = "Edit";
+        btn_edit.className = "btn btn-primary mx-1";
+        btn_edit.id = "crud";
+        btn_edit.textContent = "EDIT";
 
         let btn_delete = document.createElement("button");
-        btn_delete.className = "btn btn-primary mx-1"
-        btn_delete.id = "deleteQuiz"
-        btn_delete.textContent = "Delete";
-        btn_delete.onclick = function(){
-            axios.delete(URL+"delete_question/"+ card.id).then((result)=>{disPlayQuiz()});
-        }
-        card_footer.appendChild(btn_play);
+        btn_delete.className = "btn btn-primary mx-1";
+        btn_delete.id = "#deleetQuiz";
+        btn_delete.textContent = "DELETE";
+        btn_delete.onclick = function() {return deleteQuiz(card.id)};
+
+        card_footer.appendChild(btn_play)
         card_footer.appendChild(btn_edit);
         card_footer.appendChild(btn_delete);
-        // card_footer.appendChild(btn_create)
         card.appendChild(card_footer)
         type_quizes.appendChild(card);
     }
-    let buttons = document.querySelectorAll("#playQuiz");
+
+    let buttons = document.querySelectorAll("#playQuize");
     buttons.forEach(btn => {
         btn.addEventListener("click",playByQuizType);
     });
-}
 
+    // let btn_delete = document.querySelectorAll("#deletQuiz");
+    // btn_delete.forEach(btn => {
+    //     btn.addEventListener("click",deleteQuiz);
+    // });
+}
+function deleteQuiz(quiz_ID){
+    console.log(quiz_ID);
+    axios.delete(URL+"delete_question/"+quiz_ID).then((response)=>{getQuizesTypeFromServer()});
+}
+// // GET QUIZ ID BY EVENT TARGET
 let quizID = 0 ;
 function playByQuizType(e){
     quizID = e.target.parentElement.parentElement.id;
@@ -223,6 +233,7 @@ function playQuiz(list_of_questions) {
      // RANGE PROGREES BAR;
     progrees += (100/list_of_questions.length);
 }
+
 let global_scores = 0;
 let good_and_bad = [];
 let id_good_and_bad = [];
@@ -241,9 +252,13 @@ function getClick(event){
     }
     getDataFromLocalStorage()
 }
+
+// TO SHOW ELEMENT
 function show(element){
     element.style.display = "block";
 }
+
+// TO HIDE ELEMENT
 function hide(element){
     element.style.display = "none";
 }
