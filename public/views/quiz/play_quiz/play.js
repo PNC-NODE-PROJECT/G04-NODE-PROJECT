@@ -115,13 +115,13 @@ function playQuiz(list_of_questions) {
         box1.classList = "box d-flex";
 
         let answer_1 = document.createElement("div");
-        answer_1.classList = "btn w-50";
+        answer_1.classList = "btn w-50 btn-warning";
         answer_1.id = "A";
         answer_1.textContent = list_of_questions[index]["answers"]["A"];
         
         // CREATE LIST FOR ANSWER-2
         let answer_2 = document.createElement("div");
-        answer_2.classList = "btn w-50";
+        answer_2.classList = "btn w-50 btn-danger";
         answer_2.id = "B";
         answer_2.textContent = list_of_questions[index]["answers"]["B"];
         
@@ -131,13 +131,13 @@ function playQuiz(list_of_questions) {
         box2.classList = "box d-flex";
         // CREATE LIST FOR ANSWER-3
         let answer_3 = document.createElement("div");
-        answer_3.classList = "btn w-50";
+        answer_3.classList = "btn w-50 btn-info";
         answer_3.id = "C";
         answer_3.textContent = list_of_questions[index]["answers"]["C"];
 
         // CREATE LIST FOR ANSWER-4
         let answer_4 = document.createElement("div");
-        answer_4.classList = "btn w-50";
+        answer_4.classList = "btn w-50 btn-success";
         answer_4.id = "D";
         answer_4.textContent = list_of_questions[index]["answers"]["D"];
         box2.appendChild(answer_3);
@@ -167,7 +167,6 @@ function playQuiz(list_of_questions) {
     }else{
         hide(screenToDisplay);
         show(correction);
-        
         document.querySelector("#max").textContent = parseInt((global_scores/list_of_questions.length)*100)+"%";
         viewCorrection();
     }
@@ -212,10 +211,9 @@ function hide(element){
 // Good and Bad answers
 function viewCorrection(){
     let i = 0;
-   if(temperaryData==[]){
     for(let data of temperaryData){
-        let question_summary_good_and_bad = document.createElement("div");
-        question_summary_good_and_bad.id = "questionSummary"
+    let question_summary_good_and_bad = document.createElement("div");
+    question_summary_good_and_bad.id = "questionSummary"
 
         let question_summary = document.createElement("h5");
         question_summary.textContent = (i+1)+". "+data.title;
@@ -249,7 +247,6 @@ function viewCorrection(){
             document.querySelector(".quiz-title").textContent = quiz.title
         }
     })
-}
 }
 // Create button click event
 // requestData();
