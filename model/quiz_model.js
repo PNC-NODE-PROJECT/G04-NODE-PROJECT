@@ -40,10 +40,7 @@ const UserSchema = new mongoose.Schema(
 // Quiz Schema 
 const quizSchema = new mongoose.Schema(
   {
-    title: {
-      type: String,
-      require: true
-    }
+    title: {type: String,require: true}
   }
 )
 // Create the Model for the Tasks collection from Schema

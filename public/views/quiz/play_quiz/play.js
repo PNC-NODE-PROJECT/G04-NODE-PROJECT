@@ -1,7 +1,63 @@
+const URL = 'http://localhost:8000/'
+// ------------------------test----------------------------------------
+function addQuiz(){
+    hide(add_Quizes);
+    let card = document.createElement("div");
+    card.className = "card w-75 h-75 m-auto mt-2";
+    card.style.backgroundColor ="#55efc4";
+    let card_body = document.createElement("div");
+    card_body.className = "card-body d-flex justify-content-center";
+    card_body.onclick = function(){show(add_Quizes);hide(type_quizes);}
+
+    let images = document.createElement("img");
+    images.src = "../../../images/add-question.png"
+    images.style.width= 200 +"px";
+    card_body.appendChild(images);
+    card.appendChild(card_body);
+    type_quizes.appendChild(card);
+}
+let quiz_titles = document.querySelector("#quiz_title");
+function requestQuiz(){
+    let title_of_quiz = quiz_titles.value;
+    axios.post(URL+"quizes/add_quiz",{title:title_of_quiz})
+    .then((result)=>{getQuizesTypeFromServer();show(type_quizes)});
+   console.log(title_of_quiz)
+   hide(add_Quizes);
+}
+let clickTitle = document.querySelector("#createQuiz");
+clickTitle.addEventListener("click",requestQuiz)
+// ------------------------test----------------------------------------
+function test(){
+    let card = document.createElement("div");
+    card.className = "card w-75 m-auto mt-2";
+    card.style.backgroundColor ="#b2bec3";
+    let card_body = document.createElement("div");
+    card_body.className = "card-body";
+    let h2 = document.createElement("h2");
+    h2.className = "card-title";
+    h2.textContent ="Play general quiz";
+    card_body.appendChild(h2);
+    card.appendChild(card_body);
+    let para = document.createElement("p");
+    para.textContent = "Improve yourself with "
+    card_body.appendChild(para)
+    let card_footer = document.createElement("div");
+    card_footer.className = "card-footer";
+    let btn_play = document.createElement("button");
+    btn_play.className = "btn btn-primary mx-2";
+    btn_play.id = "playQuiz";
+    btn_play.textContent = "Practice Now";
+    card_footer.appendChild(btn_play)
+    card.appendChild(card_footer)
+    type_quizes.appendChild(card);
+}
+
+// // GET DATA FOR SERVER
 function getQuizesTypeFromServer(){
     axios.get("/quizes/quiz-title").then((result)=>{
         array_of_quiz = result.data;
-        // console.log(array_of_quiz);
+        addQuiz()
+        // test()
         displayQuizOptionalInDOM(array_of_quiz);
     })
 }
@@ -11,11 +67,9 @@ getQuizesTypeFromServer();
 function displayQuizOptionalInDOM(array_of_quiz){
     // console.log(array_of_quiz);
     for (let i=0; i<array_of_quiz.length;i++){
-
         let card = document.createElement("div");
         card.className = "card w-75 m-auto mt-2";
         card.id = array_of_quiz[i]._id;
-
         let card_body = document.createElement("div");
         card_body.className = "card-body";
         let h2 = document.createElement("h2");
@@ -56,7 +110,6 @@ function playByQuizType(e){
     requestData(quizID);
     show(screenToDisplay);
     hide(type_quizes);
-    // alert(quizID)
 }
 function requestData(id){
     axios.get("/questions/quiz-title/"+id).then((result)=>{
@@ -258,6 +311,5 @@ let correctSummary = document.querySelector(".correctionSummary");
 let correction = document.querySelector(".correction");
 correction.style.display = "none";
 
-
 let type_quizes = document.querySelector(".container-quiz-type");
-let type_quizes_none = document.querySelector(".container-quiz-none");
+let add_Quizes = document.querySelector(".addQuiz");

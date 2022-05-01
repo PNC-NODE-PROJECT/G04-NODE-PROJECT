@@ -14,17 +14,11 @@ router.get("/quiz-title/", (req, res) => {
         res.send(error)
     })
 });
-// router.get("/quiz-title/:id", (req, res) => {
-//     collection.questionModel.find({quizId: req.params.id})
-//     .populate("quizId")
-//     .then((result)=>{
-//         console.log(result);
-//         res.send(result)
-//     })
-//     .catch((error)=>{
-//         res.send(error)
-//     })
-// });
+router.post("/add_quiz", (req, res) => {
+    quizesModel.create(req.body)
+    .then((result) =>res.send(result))
+    .catch((error) =>res.send(error))
+});
 // Add question to MongoDB
 // router.post("/add_question", (req, res) => {
 //     questionsModel.create(req.body)
