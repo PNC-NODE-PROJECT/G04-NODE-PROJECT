@@ -1,10 +1,11 @@
 function getQuizesTypeFromServer(){
     axios.get("/quizes/quiz-title").then((result)=>{
-        let array_of_quiz = result.data;
+        array_of_quiz = result.data;
+        console.log(array_of_quiz);
         displayQuizOptionalInDOM(array_of_quiz);
     })
-
 }
+let array_of_quiz = [];
 getQuizesTypeFromServer();
 
 function displayQuizOptionalInDOM(array_of_quiz){
@@ -22,23 +23,26 @@ function displayQuizOptionalInDOM(array_of_quiz){
         h2.textContent = array_of_quiz[i].title;
         card_body.appendChild(h2);
         card.appendChild(card_body);
-
+        let para = document.createElement("p");
+        para.textContent = "Improve yourself with " + array_of_quiz[i].title;
+        card_body.appendChild(para)
         let card_footer = document.createElement("div");
         card_footer.className = "card-footer";
         let btn_play = document.createElement("button");
         btn_play.className = "btn btn-primary mx-2";
         btn_play.id = "playQuiz";
-        btn_play.textContent = "Play Now";
-        let btn_create = document.createElement("a");
-        btn_create.className = "btn btn-primary mx-2";
-        btn_create.id = "createQuestion"
-        btn_create.href = "../edit_quiz/question_view.html"
-        btn_create.textContent = "Create Question";
+        btn_play.textContent = "Practice Now";
         card_footer.appendChild(btn_play)
-        card_footer.appendChild(btn_create)
+        // card_footer.appendChild(btn_create)
         card.appendChild(card_footer)
         type_quizes.appendChild(card);
     }
+    // let btn_create = document.createElement("a");
+    // btn_create.className = "btn btn-primary mx-5 mt-5 text-align-left";
+    // btn_create.id = "createQuestion"
+    // btn_create.href = "../edit_quiz/question_view.html"
+    // btn_create.textContent = "Create Question";
+    // type_quizes.appendChild(btn_create)
 
     let buttons = document.querySelectorAll("#playQuiz");
     buttons.forEach(btn => {
@@ -46,18 +50,23 @@ function displayQuizOptionalInDOM(array_of_quiz){
     });
 }
 
-function playByQuizType(){
-    // let quizID = e.target.parentElement.parentElement.id;
-    requestData();
+let quizID = 0 ;
+function playByQuizType(e){
+    quizID = e.target.parentElement.parentElement.id;
+    requestData(quizID);
     show(screenToDisplay);
     hide(type_quizes);
     // alert(quizID)
 }
-function requestData(){
-    axios.get( "/questions/display_question/").then((result)=>{
+function requestData(id){
+    axios.get("/questions/quiz-title/"+id).then((result)=>{
         console.log(result.data);
         let list_of_questions = result.data;
-        saveDataInLocalStorage(list_of_questions)
+        if (list_of_questions !== []){
+            saveDataInLocalStorage(list_of_questions)
+        } else {
+            displayQuizOptionalInDOM(array_of_quiz)
+        }
     })
 }
  // Store data in local storage
@@ -228,8 +237,13 @@ function viewCorrection(){
 
         correctSummary.appendChild(question_summary_good_and_bad);
         i++;
-        created = false;
     }
+    array_of_quiz.forEach(quiz=>{
+        if (quiz._id === quizID){
+            document.querySelector(".quiz-title").textContent = quiz.title
+            console.log(quiz.title);
+        }
+    })
 }
 // Create button click event
 // requestData();

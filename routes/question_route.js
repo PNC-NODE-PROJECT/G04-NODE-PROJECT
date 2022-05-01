@@ -6,12 +6,21 @@ const questionsModel = theCollections.questionModel;
 // display all questions in MongoDB
 router.get("/display_question", (req, res) => {
     questionsModel.find()
-    .populate("userId")
+    .populate("quizId")
     .then((result) =>res.send(result))
     .catch((error) =>res.send(error))
 });
+router.get("/quiz-title/:id", (req, res) => {
+    questionsModel.find({quizId: req.params.id})
+    .then((result)=>{
+        res.send(result)
+    })
+    .catch((error)=>{
+        res.send(error)
+    })
+});
 // Add question to MongoDB
-router.post("/add_question", (req, res) => {
+router.post("/add_question/:id", (req, res) => {
     questionsModel.create(req.body)
     .then((result) =>res.send(result))
     .catch((error) =>res.send(error))

@@ -21,6 +21,7 @@ db.once("open", function () {console.log("Connected successfully");});
     },   
     corr_answer:{type:String, require:true},
     userId: {type: mongoose.Schema.Types.ObjectId,ref: "users"},
+    quizId: {type: mongoose.Schema.Types.ObjectId,ref: "quiz_types"},
     
   } 
  )
@@ -41,13 +42,7 @@ const quizSchema = new mongoose.Schema(
     quizTitle:{
       type: String,
       require: true
-    },
-    arrayQuestions: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "display_questions"
-      }
-    ]
+    }
   }
 )
 // Create the Model for the Tasks collection from Schema

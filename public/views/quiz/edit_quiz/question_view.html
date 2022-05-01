@@ -29,15 +29,15 @@
 </header>
 
 <!-- icon to show question creating template -->
-<div class="create-question">
+<div class="create-question" style="display: none;">
     <a href="#create_form" style="color: #fff;"><i class="fas fa-plus"></i></a>
 </div>
-
+<!-- CONTENTS QUIZES TYPE -->
+<div class="container-quiz mt-5" style="display: flex;">
+</div>
 <!-- Start Display all questions to edit or delete from DOM and server also -->
 <div class="container-questions">
 </div>
-<!-- END Display all questions to edit or delete from DOM and server also -->
-
 <!-- To content creating more question -->
 <div class="create-template mt-0 mb-5" style="display: none;" id="create_form">
     <div class="template-header">
@@ -45,6 +45,9 @@
     </div>
     <div class="container-create-question" >
         <form>
+            <div class="form-header">
+                <h3 class="p">Quiz title: <span class="quiz-title"></span></h3>
+            </div>
             <div class="question m-2 ">
                 <input type="text" class="form-control p-3" placeholder="e.g: What is your question?" id="question" >
             </div>
@@ -73,6 +76,8 @@
         </form>
     </div>
 </div>
+<!-- END Display all questions to edit or delete from DOM and server also -->
+
 <!--Start Display form to update question or answers -->
 <div class="update-template" id="update-form" style="display: none;">
     <div class="template-header">

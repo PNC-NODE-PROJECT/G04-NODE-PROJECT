@@ -82,10 +82,10 @@ header {
 }
 .container-fluid .answers{
     padding: 10px 20px;
-    box-shadow: -15px -15px 15px rgba(255,255,255,0.2),
+    /* box-shadow: -15px -15px 15px rgba(255,255,255,0.2),
     15px 15px 15px rgba(0, 0, 0, 0.1),
     inset -5px -5px 5px rgba(255, 255, 255, 0.2),
-    inset 5px 5px 5px rgba(0, 0, 0, 0.1);
+    inset 5px 5px 5px rgba(0, 0, 0, 0.1); */
 }
 
 .container-fluid .answers .box .btn{
@@ -252,20 +252,22 @@ header {
 
 /*  TYPE OF QUIZES */
 .container-quiz-type{
-    /* display: flex; */
-    width: 60%;
-    margin: 50px auto;
-    background-color: rgba(199, 199, 239, 0.507);
-    height: auto;
-    border-radius: 8px;
-    /* display: flex; */
-    /* align-items: center;
-    justify-content: center; */
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+    width: 80%;
+    margin: 30px auto;
     padding: 20px;
+    max-height: auto;
+    height: 80vh;
 }
 .container-quiz-type .card{
-    margin: 20px;
-    width: 100px;
-    background: rgba(222, 222, 233, 0.881);
+    /* margin: 60px 20px; */
+    background: rgba(2, 213, 255, 0.117);
+    width: 50%;
     /* margin: auto; */
+    margin-bottom: 30px;
+}
+.container-quiz-type .card:hover{
+    transform: scale(1.1);
+    transition: .8s;
 }

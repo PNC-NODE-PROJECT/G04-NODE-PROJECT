@@ -6,7 +6,6 @@ const quizesModel = collection.quizModel;
 // display all questions in MongoDB
 router.get("/quiz-title/", (req, res) => {
     quizesModel.find()
-    .populate("arrayQuestions")
     .then((result)=>{
         console.log(result);
         res.send(result)
@@ -15,6 +14,17 @@ router.get("/quiz-title/", (req, res) => {
         res.send(error)
     })
 });
+// router.get("/quiz-title/:id", (req, res) => {
+//     collection.questionModel.find({quizId: req.params.id})
+//     .populate("quizId")
+//     .then((result)=>{
+//         console.log(result);
+//         res.send(result)
+//     })
+//     .catch((error)=>{
+//         res.send(error)
+//     })
+// });
 // Add question to MongoDB
 // router.post("/add_question", (req, res) => {
 //     questionsModel.create(req.body)
