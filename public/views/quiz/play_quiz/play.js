@@ -1,35 +1,25 @@
-const URL = 'http://localhost:8000/'
-// ------------------------test----------------------------------------
-function addQuiz(){
-    hide(add_Quizes);
-    let card = document.createElement("div");
-    card.className = "card w-75 h-75 m-auto mt-2";
-    card.style.backgroundColor ="#55efc4";
-    let card_body = document.createElement("div");
-    card_body.className = "card-body d-flex justify-content-center";
-    card_body.onclick = function(){show(add_Quizes);hide(type_quizes);}
+// URL REQUEST
+const URL = 'http://localhost:8000/quizes/'
 
-    let images = document.createElement("img");
-    images.src = "../../../images/add-question.png"
-    images.style.width= 200 +"px";
-    card_body.appendChild(images);
-    card.appendChild(card_body);
-    type_quizes.appendChild(card);
+// ADD QUIZ
+function addQuiz(){
+    hide(type_quizes);
+    show(add_Quizes);
 }
-let quiz_titles = document.querySelector("#quiz_title");
+
+// REQUEST FROM INPUT
 function requestQuiz(){
+    let quiz_titles = document.querySelector("#quiz_title");
     let title_of_quiz = quiz_titles.value;
-    axios.post(URL+"quizes/add_quiz",{title:title_of_quiz})
-    .then((result)=>{getQuizesTypeFromServer();show(type_quizes)});
-   console.log(title_of_quiz)
-   hide(add_Quizes);
+    axios.post(URL+"add_quiz",{title:title_of_quiz})
+    .then((result)=>{getQuizesTypeFromServer();});
+    show(type_quizes)
+    hide(add_Quizes);
 }
-let clickTitle = document.querySelector("#createQuiz");
-clickTitle.addEventListener("click",requestQuiz)
-// ------------------------test----------------------------------------
+
 function test(){
     let card = document.createElement("div");
-    card.className = "card w-75 m-auto mt-2";
+    card.className = "card w-50 m-auto mt-2";
     card.style.backgroundColor ="#b2bec3";
     let card_body = document.createElement("div");
     card_body.className = "card-body";
@@ -52,52 +42,58 @@ function test(){
     type_quizes.appendChild(card);
 }
 
-// // GET DATA FOR SERVER
-function getQuizesTypeFromServer(){
+// GET DATA FOR SERVER
+function disPlayQuiz(){
+    // REQUEST DATA FROM SERVER
     axios.get("/quizes/quiz-title").then((result)=>{
         array_of_quiz = result.data;
-        addQuiz()
-        // test()
         displayQuizOptionalInDOM(array_of_quiz);
     })
 }
 let array_of_quiz = [];
-getQuizesTypeFromServer();
-
+disPlayQuiz();
+// REFRESH DOM WHEN CALL
 function displayQuizOptionalInDOM(array_of_quiz){
-    // console.log(array_of_quiz);
     for (let i=0; i<array_of_quiz.length;i++){
         let card = document.createElement("div");
-        card.className = "card w-75 m-auto mt-2";
+        card.className = "card m-auto mt-2";
         card.id = array_of_quiz[i]._id;
         let card_body = document.createElement("div");
-        card_body.className = "card-body";
-        let h2 = document.createElement("h2");
+        card_body.className = "card-body h-50";
+        let h2 = document.createElement("h4");
         h2.className = "card-title";
         h2.textContent = array_of_quiz[i].title;
         card_body.appendChild(h2);
         card.appendChild(card_body);
         let para = document.createElement("p");
-        para.textContent = "Improve yourself with " + array_of_quiz[i].title;
+        para.textContent = "Improve yourself with this quiz."
         card_body.appendChild(para)
         let card_footer = document.createElement("div");
         card_footer.className = "card-footer";
         let btn_play = document.createElement("button");
-        btn_play.className = "btn btn-primary mx-2";
+        btn_play.className = "btn btn-primary mx-1";
         btn_play.id = "playQuiz";
         btn_play.textContent = "Practice Now";
-        card_footer.appendChild(btn_play)
+
+        let btn_edit = document.createElement("button");
+        btn_edit.className = "btn btn-primary mx-1"
+        btn_edit.id = "editQuiz";
+        btn_edit.textContent = "Edit";
+
+        let btn_delete = document.createElement("button");
+        btn_delete.className = "btn btn-primary mx-1"
+        btn_delete.id = "deleteQuiz"
+        btn_delete.textContent = "Delete";
+        btn_delete.onclick = function(){
+            axios.delete(URL+"delete_question/"+ card.id).then((result)=>{disPlayQuiz()});
+        }
+        card_footer.appendChild(btn_play);
+        card_footer.appendChild(btn_edit);
+        card_footer.appendChild(btn_delete);
         // card_footer.appendChild(btn_create)
         card.appendChild(card_footer)
         type_quizes.appendChild(card);
     }
-    // let btn_create = document.createElement("a");
-    // btn_create.className = "btn btn-primary mx-5 mt-5 text-align-left";
-    // btn_create.id = "createQuestion"
-    // btn_create.href = "../edit_quiz/question_view.html"
-    // btn_create.textContent = "Create Question";
-    // type_quizes.appendChild(btn_create)
-
     let buttons = document.querySelectorAll("#playQuiz");
     buttons.forEach(btn => {
         btn.addEventListener("click",playByQuizType);
@@ -117,15 +113,7 @@ function requestData(id){
         if (result.data.length != 0){
             saveDataInLocalStorage(result.data)
         }else {
-            // displayQuizOptionalInDOM(array_of_quiz)
-            //   alert("I want to say that you are didn't add question yet.")
-            // let textConten = document.createElement("h4");
-            // textConten = "I love cambodia;"
-            // container.appendChild(textConten);
-            // type_quizes_none.appendChild(container);
             show(type_quizes_none);
-            // hide()
-           
         }
     })
 }
@@ -168,13 +156,13 @@ function playQuiz(list_of_questions) {
         box1.classList = "box d-flex";
 
         let answer_1 = document.createElement("div");
-        answer_1.classList = "btn w-50";
+        answer_1.classList = "btn w-50 btn-warning";
         answer_1.id = "A";
         answer_1.textContent = list_of_questions[index]["answers"]["A"];
         
         // CREATE LIST FOR ANSWER-2
         let answer_2 = document.createElement("div");
-        answer_2.classList = "btn w-50";
+        answer_2.classList = "btn w-50 btn-danger";
         answer_2.id = "B";
         answer_2.textContent = list_of_questions[index]["answers"]["B"];
         
@@ -184,13 +172,13 @@ function playQuiz(list_of_questions) {
         box2.classList = "box d-flex";
         // CREATE LIST FOR ANSWER-3
         let answer_3 = document.createElement("div");
-        answer_3.classList = "btn w-50";
+        answer_3.classList = "btn w-50 btn-info";
         answer_3.id = "C";
         answer_3.textContent = list_of_questions[index]["answers"]["C"];
 
         // CREATE LIST FOR ANSWER-4
         let answer_4 = document.createElement("div");
-        answer_4.classList = "btn w-50";
+        answer_4.classList = "btn w-50 btn-success";
         answer_4.id = "D";
         answer_4.textContent = list_of_questions[index]["answers"]["D"];
         box2.appendChild(answer_3);
@@ -221,7 +209,7 @@ function playQuiz(list_of_questions) {
         hide(screenToDisplay);
         show(correction);
         document.querySelector("#max").textContent = parseInt((global_scores/list_of_questions.length)*100)+"%";
-        viewCorrection()
+        viewCorrection();
     }
     // Create button click
     let buttons = document.querySelectorAll(".btn");
@@ -253,8 +241,6 @@ function getClick(event){
     }
     getDataFromLocalStorage()
 }
-
-
 function show(element){
     element.style.display = "block";
 }
@@ -264,52 +250,52 @@ function hide(element){
 // Good and Bad answers
 function viewCorrection(){
     let i = 0;
-    for(let data of temperaryData)
-    {
+    for(let data of temperaryData){
     let question_summary_good_and_bad = document.createElement("div");
     question_summary_good_and_bad.id = "questionSummary"
 
-    let question_summary = document.createElement("h5");
-    question_summary.textContent = (i+1)+". "+data.title;
-    question_summary_good_and_bad.appendChild(question_summary);
+        let question_summary = document.createElement("h5");
+        question_summary.textContent = (i+1)+". "+data.title;
+        question_summary_good_and_bad.appendChild(question_summary);
 
-    let answer_summary = document.createElement("h5");
-    answer_summary.className = "px-3 d-flex justify-content-between";
-    question_summary_good_and_bad.appendChild(answer_summary);
-    let paragrap_Correction = document.createElement("p");
-    let checked_Correction = document.createElement("p");
-    let icon = document.createElement("i");
-    icon.className = "fa fa-check";
-    checked_Correction.appendChild(icon);
-    if (id_good_and_bad[i] == data.corr_answer)
-    {
-        paragrap_Correction.textContent = good_and_bad[i];
-        answer_summary.style.color = "green";
-        question_summary_good_and_bad.classList = "alert alert-success";
-    }else{
-        paragrap_Correction.textContent = good_and_bad[i];
-        question_summary_good_and_bad.classList = "alert alert-danger";
-        answer_summary.style.color = "red";
-        icon.className = "fa fa-remove";
+        let answer_summary = document.createElement("h5");
+        answer_summary.className = "px-3 d-flex justify-content-between";
+        question_summary_good_and_bad.appendChild(answer_summary);
+        let paragrap_Correction = document.createElement("p");
+        let checked_Correction = document.createElement("p");
+        let icon = document.createElement("i");
+        icon.className = "fa fa-check";
+        checked_Correction.appendChild(icon);
+        if (id_good_and_bad[i] == data.corr_answer){
+            paragrap_Correction.textContent = good_and_bad[i];
+            answer_summary.style.color = "green";
+            question_summary_good_and_bad.classList = "alert alert-success";
+        }else{
+            paragrap_Correction.textContent = good_and_bad[i];
+            question_summary_good_and_bad.classList = "alert alert-danger";
+            answer_summary.style.color = "red";
+            icon.className = "fa fa-remove";
+        }
+        answer_summary.appendChild(paragrap_Correction);
+        answer_summary.appendChild(checked_Correction);
+        correctSummary.appendChild(question_summary_good_and_bad);
+        i++;
     }
-    answer_summary.appendChild(paragrap_Correction);
-    answer_summary.appendChild(checked_Correction);
-    correctSummary.appendChild(question_summary_good_and_bad);
-    i++;
-}
-array_of_quiz.forEach(quiz=>{
-    if (quiz._id === quizID){
-        document.querySelector(".quiz-title").textContent = quiz.title
-    }
-   })
+    array_of_quiz.forEach(quiz=>{
+        if (quiz._id === quizID){
+            document.querySelector(".quiz-title").textContent = quiz.title
+        }
+    })
 }
 // Create button click event
 // requestData();
 let screenToDisplay = document.querySelector(".container-questions");
-let displayGoodAndBadAnswers= document.querySelector("#viewCorrection");
+// let displayGoodAndBadAnswers= document.querySelector("#viewCorrection");
 let correctSummary = document.querySelector(".correctionSummary");
 let correction = document.querySelector(".correction");
 correction.style.display = "none";
 
 let type_quizes = document.querySelector(".container-quiz-type");
+let type_quizes_none = document.querySelector(".container-quiz-none");
 let add_Quizes = document.querySelector(".addQuiz");
+hide(add_Quizes);

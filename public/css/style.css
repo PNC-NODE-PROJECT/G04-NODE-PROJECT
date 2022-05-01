@@ -18,7 +18,7 @@ header {
     align-items: center;
     width: 100%;
     color: #0593E3;
-    background-color: rgba(232, 232, 232, 0.979);
+    background-color: rgba(232, 232, 232, 0.405);
     position: sticky;
     top: 0%;
     transition: all ease-in-out 1s;
@@ -56,10 +56,7 @@ header {
     padding: 50px 20px;
     border-radius: 8px;
 }
-/* .contain .card{
-    padding: 6px;
-    width: 30%;
-} */
+
 
 .container-fluid{
     background: rgb(209, 199, 199);
@@ -82,10 +79,6 @@ header {
 }
 .container-fluid .answers{
     padding: 10px 20px;
-    /* box-shadow: -15px -15px 15px rgba(255,255,255,0.2),
-    15px 15px 15px rgba(0, 0, 0, 0.1),
-    inset -5px -5px 5px rgba(255, 255, 255, 0.2),
-    inset 5px 5px 5px rgba(0, 0, 0, 0.1); */
 }
 
 .container-fluid .answers .box .btn{
@@ -95,7 +88,6 @@ header {
     color: #fff;
     font-size: 18px; 
     cursor: auto;
-    background: #0593E3;
     display: flex;
     align-items: center;
     justify-content:center;
@@ -104,11 +96,8 @@ header {
     font-size: 22px;
     height: 18vh;
     cursor: pointer;
-    background: #0593E3;
+    /* background: #0593E3; */
 
-}
-.container-fluid .answers .box .w-50:hover{
-    background: rgba(1, 112, 222, 0.245);
 }
 .card_footer{
     display: flex;
@@ -252,32 +241,20 @@ header {
 
 /*  TYPE OF QUIZES */
 .container-quiz-type{
-    display: grid;
-    grid-template-columns: 2fr 2fr;
+    /* display: flex; */
+    flex-wrap: wrap; 
     width: 80%;
-    margin: 30px auto;
+    margin: 10px auto;
     padding: 20px;
     max-height: auto;
-    height: 80vh;
 }
 .container-quiz-type .card{
-    /* margin: 60px 20px; */
     background: rgba(2, 213, 255, 0.117);
-    width: 50%;
-    /* margin: auto; */
-    margin-bottom: 30px;
+    width: 32%;
+    display: flex;
+    justify-content: center;
 }
 .container-quiz-type .card:hover{
     transform: scale(1.1);
     transition: .8s;
-}
-
-.container-quiz-none{
-    width: 40%;
-    height: 60vh;
-    margin: auto;
-    background: red;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }

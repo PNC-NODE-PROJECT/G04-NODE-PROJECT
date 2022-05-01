@@ -104,6 +104,7 @@ function showQuestionInDom(list_of_questions){
         let correct_answer = list_of_questions[index]["corr_answer"];
         let answer_1 = document.createElement("div");
         answer_1.classList = "btn";
+        answer_1.style.background = "#0593E3";
         answer_1.textContent = list_of_questions[index]["answers"]["A"];
         
         if (correct_answer === "A"){
@@ -111,7 +112,8 @@ function showQuestionInDom(list_of_questions){
         }
         // CREATE LIST FOR ANSWER-2
         let answer_2 = document.createElement("div");
-        answer_2.classList = "btn";
+        answer_2.classList = "btn ";
+        answer_2.style.background = "#0593E3";
         answer_2.textContent = list_of_questions[index]["answers"]["B"];
         if (correct_answer === "B"){
             answer_2.style.background = "green";
@@ -123,6 +125,7 @@ function showQuestionInDom(list_of_questions){
         // CREATE LIST FOR ANSWER-3
         let answer_3 = document.createElement("div");
         answer_3.classList = "btn";
+        answer_3.style.background = "#0593E3";
         answer_3.textContent = list_of_questions[index]["answers"]["C"];
         if (correct_answer === "C"){
             answer_3.style.background = "green";
@@ -130,6 +133,7 @@ function showQuestionInDom(list_of_questions){
         // CREATE LIST FOR ANSWER-4
         let answer_4 = document.createElement("div");
         answer_4.classList = "btn";
+        answer_4.style.background = "#0593E3";
         answer_4.textContent = list_of_questions[index]["answers"]["D"];
         if (correct_answer === "D"){
             answer_4.style.background = "green";
@@ -191,39 +195,35 @@ function createQuestion(){
 // TO CHECK FORM VALIDATION INPUT
 function checkValidation(title,ans1,ans2,ans3,ans4,correct_answer){
     if (title != "" &&  ans1 != "" && ans2 != "" && ans3 != "" && ans4 != ""){
-        if (title[title.length-1] == "?"){
-            if (correct_answer != ""){
-                let data = {
-                    title: title,
-                    answers: {
-                        A: ans1,
-                        B: ans2,
-                        C: ans3,
-                        D: ans4
-                    },
-                    corr_answer: correct_answer,
-                    quizId: quizID
-                }
-                if (update_template.style.display == "none"){
-                    sendDataToServer(data,quizID);
-                    alert("Create successful!");
-                    hide(content_create_questions);
-                } else{
-                    sendDataToServerToUpdate(data,quizID);
-                    alert("Update successful!");
-                    hide(update_template);
-                }
-                question_create.value = "";
-                answer1_create.value = "";
-                answer2_create.value = "";
-                answer3_create.value = "";
-                answer4_create.value = "";
-                corr_answer.value = "";
-            } else {
-                alert("Please choose correct answer!!");
+        if (correct_answer != ""){
+            let data = {
+                title: title,
+                answers: {
+                    A: ans1,
+                    B: ans2,
+                    C: ans3,
+                    D: ans4
+                },
+                corr_answer: correct_answer,
+                quizId: quizID
             }
+            if (update_template.style.display == "none"){
+                sendDataToServer(data,quizID);
+                alert("Create successful!");
+                hide(content_create_questions);
+            } else{
+                sendDataToServerToUpdate(data,quizID);
+                alert("Update successful!");
+                hide(update_template);
+            }
+            question_create.value = "";
+            answer1_create.value = "";
+            answer2_create.value = "";
+            answer3_create.value = "";
+            answer4_create.value = "";
+            corr_answer.value = "";
         } else {
-            alert("Question should end by question mark (?)");
+            alert("Please choose correct answer!!");
         }
     } else {
         alert("Please input all the fill!");

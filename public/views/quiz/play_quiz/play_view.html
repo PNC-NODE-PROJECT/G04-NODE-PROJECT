@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Quiz App</title>
     <link rel="stylesheet" href="../../../css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
@@ -17,35 +17,42 @@
 <header class="header ">
     <div class="header-left">
         <div class="logo">
-            <a href="../../../index.html"><img class="img" src="../../../images/quiz-logo.png" style="width: 70px;"></a>
+            <a href="../../../index.html"><img class="img" src="../../../images/quizlogo.png" style="width: 70px;"></a>
         </div>
         <a href="../../../index.html" class="logo-title">Practice English</a>
     </div>
     <div class="header-right">
         <a href="../edit_quiz/question_view.html" class="btn btn-primary ">Create Question</a>
-        <a href="../../../index.html" type="button" class="btn btn-primary"><i class='fas fa-home'></i></a>
+        <a href="play_view.html" type="button" class="btn btn-primary"><i class='fas fa-home'></i></a>
     </div>
 </header>
-<div class="container-quiz-type">
-
-</div>
-<div class="addQuiz w-50 m-auto">
-    <div class="card m-auto mt-2">
+<!-- INPUT QUIZ -->
+<div class ="addQuiz w-50 m-auto bg-secondary">
     <div class="card-body d-flex">
         <input type="text" placeholder="Enter quiz title.." class="form-control" id="quiz_title">
     </div>
     <div class="card-footer">
-        <button class="btn btn-primary mx-2" id="createQuiz">ADD</button>
+        <button class="btn btn-primary mx-2" onclick="requestQuiz()">ADD</button>
     </div>
 </div>
+<!-- ADD QUIZ -->
+<div class="container-quiz-type" style=" display: flex;">
+    <div class="card m-auto mt-2 d-flex justify-content-center">
+       <div class="card_body d-flex justify-content-center bg-danger" onclick="addQuiz()">'
+            <img src="../../../images/add-question.png" alt="" width="170" height="170" >
+       </div>
+    </div>
+</div>
+
+
 <!-- IF NO ANSWER -->
-<div class="container-quiz-none" style="display: none">
-    <h4>You have no question here</h4>
+<div class="container-quiz-none alert alert-danger" style="display: none;">
+    <h1>NO Questions!!</h1>
+    <img src="../../../images/empty.png" alt="" width="50%" >
 </div>
 <!-- DISPLAY QUIZZ TO PLAY -->
 <div class="container-questions" style="display: none;">
 </div>
-
 <!-- THE VIEW CORRECTIONS -->
 <div class="correction">
     <div class="correctionScore">
