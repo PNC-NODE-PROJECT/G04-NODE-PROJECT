@@ -14,24 +14,25 @@ getQuizesTypeFromServer();
 function displayQuizOptionalInDOM(array_of_quiz){
     for (let i=0; i<array_of_quiz.length;i++){
         let card = document.createElement("div");
-        card.className = "card m-auto mt-2";
+        card.className = "card-quiz ";
         card.id = array_of_quiz[i]._id;
-        let card_body = document.createElement("div");
-        card_body.className = "card-body h-50";
+        let card_header = document.createElement("div");
+        card_header.className = "card-header bg-primary";
         let h2 = document.createElement("h4");
         h2.className = "card-title";
         h2.textContent = array_of_quiz[i].title;
-        card_body.appendChild(h2);
-        card.appendChild(card_body);
-        let para = document.createElement("p");
-        para.textContent = "Improve yourself with this quiz."
-        card_body.appendChild(para)
+        card_header.appendChild(h2);
+        card.appendChild(card_header);
+        let para = document.createElement("h6");
+        para.classList = "card-body";
+        para.textContent = "Improve your English with " +  array_of_quiz[i].title
+        card.appendChild(para)
         let card_footer = document.createElement("div");
         card_footer.className = "card-footer";
         let btn_play = document.createElement("button");
         btn_play.className = "btn btn-primary mx-1";
         btn_play.id = "playQuize";
-        btn_play.textContent = "PLAY";
+        btn_play.textContent = "Practice Now";
         card_footer.appendChild(btn_play)
         card.appendChild(card_footer)
         type_quizes.appendChild(card);
@@ -130,6 +131,12 @@ function playQuiz(list_of_questions) {
         content_answers.appendChild(box2);
         content_question.appendChild(card);
         content_question.appendChild(content_answers);
+
+        // INCREMENT INDEX BY 1
+        index += 1;
+        // RANGE PROGREES BAR;
+        progrees += (100/list_of_questions.length);
+
         let range = document.createElement("div");
         range.className = "range";
         range.style.width = progrees + "%";
@@ -160,10 +167,7 @@ function playQuiz(list_of_questions) {
             buttons[i].addEventListener("click",getClick);
         }
     }
-     // INCREMENT INDEX BY 1
-    index += 1;
-     // RANGE PROGREES BAR;
-    progrees += (100/list_of_questions.length);
+     
 }
 
 let global_scores = 0;
@@ -240,9 +244,6 @@ let screenToDisplay = document.querySelector(".container-questions");
 // let displayGoodAndBadAnswers= document.querySelector("#viewCorrection");
 let correctSummary = document.querySelector(".correctionSummary");
 let correction = document.querySelector(".correction");
-correction.style.display = "none";
 
 let type_quizes = document.querySelector(".container-quiz-type");
 let type_quizes_none = document.querySelector(".container-quiz-none");
-let add_Quizes = document.querySelector(".addQuiz");
-hide(add_Quizes);
