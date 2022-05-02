@@ -1,46 +1,3 @@
-// URL REQUEST
-const URL = 'http://localhost:8000/quizes/'
-
-// // ADD QUIZ
-function addQuiz(){
-    hide(type_quizes);
-    show(add_Quizes);
-}
-
-// // REQUEST FROM INPUT
-function requestQuiz(){
-    let quiz_titles = document.querySelector("#quiz_title");
-    let title_of_quiz = quiz_titles.value;
-    axios.post(URL+"add_quiz",{title:title_of_quiz})
-    .then((result)=>{getQuizesTypeFromServer();});
-    show(type_quizes)
-    hide(add_Quizes);
-}
-
-function test(){
-    let card = document.createElement("div");
-    card.className = "card w-50 m-auto mt-2";
-    card.style.backgroundColor ="#b2bec3";
-    let card_body = document.createElement("div");
-    card_body.className = "card-body";
-    let h2 = document.createElement("h2");
-    h2.className = "card-title";
-    h2.textContent ="Play general quiz";
-    card_body.appendChild(h2);
-    card.appendChild(card_body);
-    let para = document.createElement("p");
-    para.textContent = "Improve yourself with "
-    card_body.appendChild(para)
-    let card_footer = document.createElement("div");
-    card_footer.className = "card-footer";
-    let btn_play = document.createElement("button");
-    btn_play.className = "btn btn-primary mx-2";
-    btn_play.id = "playQuiz";
-    btn_play.textContent = "Practice Now";
-    card_footer.appendChild(btn_play)
-    card.appendChild(card_footer)
-    type_quizes.appendChild(card);
-}
 
 // GET QUIZ TYPE FROM THE SERVER
 function getQuizesTypeFromServer(){
@@ -71,43 +28,18 @@ function displayQuizOptionalInDOM(array_of_quiz){
         card_body.appendChild(para)
         let card_footer = document.createElement("div");
         card_footer.className = "card-footer";
-       
         let btn_play = document.createElement("button");
         btn_play.className = "btn btn-primary mx-1";
-        btn_play.id = "playQuiz";
+        btn_play.id = "playQuize";
         btn_play.textContent = "PLAY";
-
-        let btn_edit = document.createElement("button");
-        btn_edit.className = "btn btn-primary mx-1";
-        btn_edit.id = "crud";
-        btn_edit.textContent = "EDIT";
-
-        let btn_delete = document.createElement("button");
-        btn_delete.className = "btn btn-primary mx-1";
-        btn_delete.id = "#deleetQuiz";
-        btn_delete.textContent = "DELETE";
-        btn_delete.onclick = function() {return deleteQuiz(card.id)};
-
         card_footer.appendChild(btn_play)
-        card_footer.appendChild(btn_edit);
-        card_footer.appendChild(btn_delete);
         card.appendChild(card_footer)
         type_quizes.appendChild(card);
     }
-
     let buttons = document.querySelectorAll("#playQuize");
     buttons.forEach(btn => {
         btn.addEventListener("click",playByQuizType);
     });
-
-    // let btn_delete = document.querySelectorAll("#deletQuiz");
-    // btn_delete.forEach(btn => {
-    //     btn.addEventListener("click",deleteQuiz);
-    // });
-}
-function deleteQuiz(quiz_ID){
-    console.log(quiz_ID);
-    axios.delete(URL+"delete_question/"+quiz_ID).then((response)=>{getQuizesTypeFromServer()});
 }
 // // GET QUIZ ID BY EVENT TARGET
 let quizID = 0 ;
