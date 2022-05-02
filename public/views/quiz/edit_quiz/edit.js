@@ -5,7 +5,7 @@ const URL = 'http://localhost:8000/quizes/'
 // // ADD QUIZ
 function addQuiz(){
 
-    hide(template_add_quiz);
+    // hide(template_add_quiz);
     show(btn_add_quiz);
 }
 
@@ -23,7 +23,7 @@ function requestQuiz(){
         if (isNotAlreadyExist == false){
             axios.post(URL+"add_quiz",{title:title_of_quiz})
             .then((result)=>{getQuizesTypeFromServer()});
-            show(template_add_quiz);
+            // show(template_add_quiz);
             hide(btn_add_quiz);
         } else{
             alert("This quiz already exists!");
@@ -74,40 +74,45 @@ getQuizesTypeFromServer();
 
 // DISPLAY QUIZ CARD IN DOM
 function displayQuizOptionalInDOM(array_of_quiz){
-    // console.log(array_of_quiz);
+
+    // TO REMOVE LAST CHILD FROM THE DOM TO PREVENT REPEAT THE SAME
     while (container_quiz.firstChild){
         container_quiz.removeChild(container_quiz.lastChild)
     }
     for (let i=0; i<array_of_quiz.length;i++){
 
+        // CREATE CARD
         let card = document.createElement("div");
-        card.className = "card w-75 m-auto mt-2";
+        card.className = "w-75 card-quiz";
         card.id = array_of_quiz[i]._id;
 
-        let card_body = document.createElement("div");
-        card_body.className = "card-body";
-        let h2 = document.createElement("h2");
+        // CREATE CARD HEADER
+        let card_header = document.createElement("div");
+        card_header.className = "card-header";
+        let h2 = document.createElement("h4");
         h2.className = "card-title";
         h2.textContent = array_of_quiz[i].title;
-        card_body.appendChild(h2);
+        card_header.appendChild(h2);
+        card.appendChild(card_header);
+
+        // CREATE CARD BODY
+        let card_body = document.createElement("div");
+        card_body.classList = "card-body"
+        card_body.textContent = "For this quiz, you can delete or update and create more about " + array_of_quiz[i].title;
         card.appendChild(card_body);
 
-        let para = document.createElement("p");
-        para.textContent = "Create your own question with " + array_of_quiz[i].title;
-        card_body.appendChild(para)
+        // CREATE CARD FOOTER
         let card_footer = document.createElement("div");
-        card_footer.className = "card-footer d-flex justify-content-space-between";
+        card_footer.className = "card-footer";
 
         let btn_play = document.createElement("button");
         btn_play.className = "btn btn-primary mx-2";
         btn_play.id = "createQuestion";
-        btn_play.textContent = "View Questions";
+        btn_play.textContent = "View";
 
         let btn_edit = document.createElement("button");
-        btn_edit.className = "btn btn-success mx-1";
+        btn_edit.className = "btn btn-primary mx-1";
         btn_edit.id = "editQuiz";
-        btn_edit.style.background ="none";
-        btn_edit.style.color ="blue";
         let iconEdit = document.createElement("i");
         iconEdit.className = "fas fa-edit";
         btn_edit.appendChild(iconEdit);
@@ -115,20 +120,16 @@ function displayQuizOptionalInDOM(array_of_quiz){
         let btn_delete = document.createElement("button");
         btn_delete.className = "btn btn-danger mx-1";
         btn_delete.id = "deleetQuiz";
-        btn_delete.style.background ="none";
-        btn_delete.style.color ="red";
         let iconDelete = document.createElement("i");
         iconDelete.className = "fas fa-trash"
-        // iconDelete.style = "font-size:24px";
         btn_delete.appendChild(iconDelete);
         btn_delete.onclick = function() {return deleetQuiz(card.id)};
+
+        // APPEND BUTTONS TO CARD FOOTER
         card_footer.appendChild(btn_play);
         card_footer.appendChild(btn_edit);
         card_footer.appendChild(btn_delete);
 
-        
-        
-        // card_footer.appendChild(btn_create)
         card.appendChild(card_footer)
         container_quiz.appendChild(card);
     }

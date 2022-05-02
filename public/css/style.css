@@ -18,12 +18,7 @@ header {
     align-items: center;
     width: 100%;
     color: #0593E3;
-    background-color: #9ab0cf;
-    position: sticky;
-    top: 0%;
-    transition: all ease-in-out 1s;
-    z-index: 100;
-    box-shadow: 2px 2px 8px 1px #ccc;
+    background-color: #9ab0cf84;
 }
 
 .header-left {
@@ -47,10 +42,14 @@ header {
 .header-right .material-icons {
     text-decoration: none;
 }
+.header-right  .btn{
+    background-color: #0592e38a;
+    color: #fff;
+}
 .contain{ 
     display: flex;
     justify-content: center;
-    margin: 60px auto;
+    margin: 50px auto;
     width: 60%;
     background: rgba(19, 223, 238, 0.186);
     height: auto;
@@ -130,15 +129,17 @@ header {
     transition: all ease-in .6s;
 }
 /* / Range of Task bar / */
-.range{
-    height: 3vh;
-    background: #0593E3;
-}
 .subRange{
     width: 100%;
     display: flex;
     justify-content: start;
-    margin-top: 10px;
+}
+.range{
+    height: 2vh;
+    background: #0593E3;
+    position: absolute;
+    bottom: 0%;
+    left: 12.5%;
 }
 .correction{
     width: 80%;
@@ -189,13 +190,13 @@ header {
 }
 
 
-.create-question{
+.create-question, #template-add-quiz{
     position: absolute;
     position: fixed;
     background: #1081eb;
     font-size: 30px;
-    left: 120px;
-    top: 100px;
+    left: 60px;
+    top: 200px;
     width: 60px;
     height: 60px;
     display: flex;
@@ -243,27 +244,22 @@ header {
 /* /  TYPE OF QUIZES / */
 .container-quiz-type{
     display: grid;
-    grid-template-columns: 2fr 2fr;
-    width: 80%;
+    grid-template-columns: 2fr 2fr 2fr;
+    width: 100%;
     margin: 30px auto;
     padding: 20px;
     max-height: auto;
-    height: 80vh;
 }
 .container-quiz-type .card{
-    /* / margin: 60px 20px; / */
     background: rgba(2, 213, 255, 0.117);
-    width: 50%;
-    /* / margin: auto; / */
-    margin-bottom: 30px;
-    height: 36vh
+    width: 80%;
+    max-height: auto;
 }
 
 .container-quiz-none{
     width: 40%;
     height: 60vh;
     margin: 60px auto;
-    /* / background: red; / */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -272,17 +268,25 @@ header {
 .container-quiz {
     display: grid;
     grid-template-columns: 2fr 2fr;
-    width: 80%;
-    margin: 30px auto;
+    width: 70%;
+    margin: auto;
     padding: 20px;
     max-height: auto;
-    height: 80vh;
 }
-.container-quiz .card{
-    background:rgba(2, 213, 255, 0.117);
-    margin: auto;
-    width: 50%;
-    height: 30vh;
-    margin-bottom: 20px;
+.card-quiz { 
+    height: auto;
+    margin: 20px;
+    box-shadow: 2px 1px 4px 1px #fff;
+}
+.card-quiz .card-header{
+    color: #fff;
+    background-color: #6c6c6c;
 
 }
+#addQuiz{
+    /* background: #027bf582; */
+    width: 30%;
+    border-radius: 6px;
+    box-shadow: 2px 1px 4px 1px #fff;
+}
+
