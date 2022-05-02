@@ -8,7 +8,8 @@ function addQuiz(){
     hide(template_add_quiz);
     show(btn_add_quiz);
 }
-
+// GLOBAL ID
+let global_id = "";
 // // REQUEST FROM INPUT
 function requestQuiz(){
     let quiz_titles = document.querySelector("#quiz_title");
@@ -61,6 +62,23 @@ function deleetQuiz(quizID){
     axios.delete(URL+"delete_question/"+quizID)
     .then(getQuizesTypeFromServer())
 }
+
+let update_titles = document.querySelector("#quiz_title");
+function updateQuestion(id, title) {
+    update_titles.value = title;
+    hide(btn_dispay_quiz);
+    show(btn_update_quiz);
+    hide(container_quiz)
+    global_id = id;
+    addQuiz()
+}
+function updateQuize(){
+    let quiz_titles = document.querySelector("#quiz_title");
+    axios.put(URL+"update_question/"+global_id,{title:quiz_titles.value})
+    .then(getQuizesTypeFromServer());
+    show(container_quiz)
+}
+
 // GET TYPE OF QUIZES FROM SERVER
 function getQuizesTypeFromServer(){
     axios.get("/quizes/quiz-title").then((result)=>{
@@ -111,6 +129,10 @@ function displayQuizOptionalInDOM(array_of_quiz){
         let iconEdit = document.createElement("i");
         iconEdit.className = "fas fa-edit";
         btn_edit.appendChild(iconEdit);
+        btn_edit.onclick = function() 
+        {
+            return updateQuestion(card.id,array_of_quiz[i].title) ;
+        };
 
         let btn_delete = document.createElement("button");
         btn_delete.className = "btn btn-danger mx-1";
@@ -122,6 +144,7 @@ function displayQuizOptionalInDOM(array_of_quiz){
         // iconDelete.style = "font-size:24px";
         btn_delete.appendChild(iconDelete);
         btn_delete.onclick = function() {return deleetQuiz(card.id)};
+
         card_footer.appendChild(btn_play);
         card_footer.appendChild(btn_edit);
         card_footer.appendChild(btn_delete);
@@ -411,4 +434,7 @@ let screenToDisplay = document.querySelector(".container-questions");
 let template_add_quiz = document.querySelector("#template-add-quiz");
 let btn_add_quiz = document.querySelector("#addQuiz");
 let btn_dispay_quiz = document.querySelector("#btn-add-quiz");
-btn_dispay_quiz.addEventListener("click",requestQuiz)
+btn_dispay_quiz.addEventListener("click",requestQuiz);
+
+let btn_update_quiz = document.querySelector("#btn-update-quiz");
+btn_update_quiz.addEventListener("click",updateQuize);
