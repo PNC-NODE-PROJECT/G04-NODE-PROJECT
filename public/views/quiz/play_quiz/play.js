@@ -79,9 +79,9 @@ let good_and_bad = [];
 let id_good_and_bad = [];
 let array_of_quiz = [];
 let list_of_score = [];
-let isShowandHide = true;
 // CREATE QUIZ TEMPLATE
 function playQuiz(list_of_questions) {
+    hide(btn_go_to_score);
     while (screenToDisplay.firstChild) {
         screenToDisplay.removeChild(screenToDisplay.lastChild);
     }
@@ -334,13 +334,12 @@ function displayScore(list_of_score){
 // SHOW AND HIDE SCORE STATUS
 function buttonClicktoViewScore(event){
     let card_body = event.target.parentNode.parentNode.children[1];
-    if(isShowandHide){
+    if (card_body.style.display == "none"){
         show(card_body);
-        isShowandHide = false;
-    }else{
+    } else{
         hide(card_body)
-        isShowandHide = true;
     }
+
 }
 
 //  GET ALL QUESTION FOR SERVER
@@ -362,7 +361,6 @@ function addScoreToDatabase(score,quizId,currentTime){
         .then(response =>{return response;})
         .catch(error =>{alert(error)});
         isAdded = false;
-        hide(btn_go_to_score);
     }
 }
 
