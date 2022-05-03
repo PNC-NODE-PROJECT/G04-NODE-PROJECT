@@ -51,7 +51,8 @@ const quizSchema = new mongoose.Schema(
 const ScoreSchema = new mongoose.Schema(
   {
     score: { type: String, require: true},
-    dataTime:{ type: String, require: true}
+    dataTime:{ type: String, require: true},
+    quizId: { type: mongoose.Schema.Types.ObjectId, ref: "quiz_types" }
   }
 )
 

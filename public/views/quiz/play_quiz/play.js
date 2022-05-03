@@ -260,12 +260,11 @@ function viewCorrection(){
 // DISPLAY SCORE 
 
 function displayScore(list_of_score){
-    console.log(list_of_score)
     hide(type_quizes);
     while(scoreContainer.firstChild){
         scoreContainer.removeChild(scoreContainer.lastChild)
     }
-    for(let i = 0; i<array_of_quiz.length;i++){
+    for(var i = 0; i<array_of_quiz.length;i++){
         var card = document.createElement("div");
         card.className = "card-score mb-3";
         card.id = array_of_quiz[i]._id;
@@ -282,10 +281,9 @@ function displayScore(list_of_score){
 
         var card_body = document.createElement("div");
         card_body.className = "card-body";
-        card_body.id = array_of_quiz[i]._id;
-
-        for(let n = 0;n<list_of_score.length;n++){
-            if(list_of_score[n].quizId._id == array_of_quiz[i]._id){
+        card_body.id = array_of_quiz[i].id;
+        for(let n = 0;n < 2; n++){
+            if(array_of_quiz[i]._id == list_of_score[n].quizId._id){
                 var card_date_time = document.createElement("div");
                 card_date_time.className = "card-data-time px-3";
 
@@ -329,7 +327,6 @@ function displayScore(list_of_score){
 
 // SHOW AND HIDE SCORE STATUS
 function buttonClicktoViewScore(event){
-    console.console.log(event.target.id);
     let card_body = event.target.parentNode.parentNode.children[1];
     if (card_body.style.display == "none"){
         show(card_body);
@@ -344,10 +341,8 @@ function returnScore(){
     .then(response => 
         {
             list_of_score  = response.data;
-            console.log(list_of_score)
             displayScore(list_of_score )
         })
-    .catch(error =>{alert(error)})
 }
 
 // ADD SCORES INTO THE DATABASE
@@ -371,7 +366,7 @@ let btn_go_to_score = document.querySelector("#scoreID");
 btn_go_to_score.addEventListener("click",returnScore);
 let scoreContainer = document.querySelector(".scoreContainer");
 
-// GENERAL QUIZE
+// // GENERAL QUIZE
 function selfExercise(){
     // hide(type_quizes);
     while (screenToDisplay.firstChild) {
