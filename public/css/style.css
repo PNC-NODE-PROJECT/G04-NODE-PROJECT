@@ -285,3 +285,10 @@ header {
     display: none;
 }
 
+.card-score {
+    background: #ffffff30;
+    font-size: 18px;
+}
+.card_progress{
+    background: #9292926a;
+}
