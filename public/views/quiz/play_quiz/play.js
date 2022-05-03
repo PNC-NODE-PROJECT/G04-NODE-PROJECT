@@ -51,11 +51,11 @@ function playByQuizType(e){
 }
 function requestData(id){
     axios.get("/questions/quiz-title/"+id).then((result)=>{
-        console.log(result.data.length);
         if (result.data.length != 0){
             saveDataInLocalStorage(result.data)
         }else {
             show(type_quizes_none);
+            hide(btn_go_to_score);
         }
     })
 }
@@ -66,7 +66,6 @@ function saveDataInLocalStorage(list_of_questions){
 }
 // Get data from local storage
 function getDataFromLocalStorage(){
-    
     let data = JSON.parse(localStorage.getItem("data"));
     playQuiz(data);
 }
@@ -286,7 +285,6 @@ function displayScore(list_of_score){
 
         for(let n = 0;n<list_of_score.length;n++){
             if(list_of_score[n].quizId._id == array_of_quiz[i]._id){
-                console.log(true);
                 var card_date_time = document.createElement("div");
                 card_date_time.className = "card-data-time px-3";
 
@@ -296,7 +294,7 @@ function displayScore(list_of_score){
                 let deleteScore = document.createElement("i");
                 deleteScore.className = "fas fa-trash"
                 var card_body_progress = document.createElement("div");
-                card_body_progress.className ="card_progress h-25 bg-secondary m-2";
+                card_body_progress.className ="card_progress h-25 m-2";
                 card_body_progress.style.width = "100%";
                 card_body.appendChild(card_body_progress);
             
@@ -306,9 +304,6 @@ function displayScore(list_of_score){
                 card_range.style.width = list_of_score[n].score;
                 card_range.style.color = "white"
                 card_body_progress.appendChild(card_range);  
-            }else{
-                console.log(false);
-                
             }
         }
     
