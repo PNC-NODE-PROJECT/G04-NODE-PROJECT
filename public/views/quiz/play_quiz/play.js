@@ -267,11 +267,11 @@ function displayScore(list_of_score){
     }
     for(let i = 0; i<array_of_quiz.length;i++){
         var card = document.createElement("div");
-        card.className = "card-score bg-secondary";
+        card.className = "card-score mb-3";
         card.id = array_of_quiz[i]._id;
 
         var card_header = document.createElement("div");
-        card_header.className = "card-header bg-success";
+        card_header.className = "card-header bg-primary";
 
         var h2 = document.createElement("h4");
         h2.className = "card-title text-white";
@@ -288,7 +288,7 @@ function displayScore(list_of_score){
             if(list_of_score[n].quizId._id == array_of_quiz[i]._id){
                 console.log(true);
                 var card_date_time = document.createElement("div");
-                card_date_time.className = "card-data-time px-3 text-dark";
+                card_date_time.className = "card-data-time px-3";
 
                 card_date_time.textContent = "Date of played: "+ list_of_score[n].dataTime;
                 card_date_time.id = list_of_score[n]._id;
@@ -296,7 +296,7 @@ function displayScore(list_of_score){
                 let deleteScore = document.createElement("i");
                 deleteScore.className = "fas fa-trash"
                 var card_body_progress = document.createElement("div");
-                card_body_progress.className ="card_progress h-25 bg-primary m-2";
+                card_body_progress.className ="card_progress h-25 bg-secondary m-2";
                 card_body_progress.style.width = "100%";
                 card_body.appendChild(card_body_progress);
             
