@@ -177,7 +177,7 @@ function playQuiz(list_of_questions) {
         var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
         var time = today.getHours() + ":" + today.getMinutes() + " " + isCurrentTime;
         var dateTime = date+' '+time;
-        addScoreToDatabase(maximumScore,list_of_questions[0].quizId,dateTime)
+        addScoreToDatabase(maximumScore,list_of_questions[0].quizId,dateTime);
     }
 
     // CLICK BUTTON
@@ -188,7 +188,8 @@ function playQuiz(list_of_questions) {
         }
     }
 }
-
+// REFRESH DOM WHEN CALL
+getQuizesTypeFromServer();
 // EVALUATE THE RESULT OF QUESTION
 function getClick(event){
     if(index <= temperaryData.length){
@@ -272,7 +273,6 @@ function displayScore(list_of_score){
         var card_header = document.createElement("div");
         card_header.className = "card-header bg-success";
 
-
         var h2 = document.createElement("h4");
         h2.className = "card-title text-white";
         h2.textContent = array_of_quiz[i].title;
@@ -285,13 +285,16 @@ function displayScore(list_of_score){
         card_body.id = array_of_quiz[i]._id;
 
         for(let n = 0;n<list_of_score.length;n++){
-            if(list_of_score[n].quizId.title == array_of_quiz[i].title){
-                
+            if(list_of_score[n].quizId._id == array_of_quiz[i]._id){
+                console.log(true);
                 var card_date_time = document.createElement("div");
                 card_date_time.className = "card-data-time px-3 text-dark";
+
                 card_date_time.textContent = "Date of played: "+ list_of_score[n].dataTime;
+                card_date_time.id = list_of_score[n]._id;
                 card_body.appendChild(card_date_time);
-            
+                let deleteScore = document.createElement("i");
+                deleteScore.className = "fas fa-trash"
                 var card_body_progress = document.createElement("div");
                 card_body_progress.className ="card_progress h-25 bg-primary m-2";
                 card_body_progress.style.width = "100%";
@@ -305,6 +308,7 @@ function displayScore(list_of_score){
                 card_body_progress.appendChild(card_range);  
             }else{
                 console.log(false);
+                
             }
         }
     
@@ -321,7 +325,7 @@ function displayScore(list_of_score){
         card.appendChild(card_footer)
         scoreContainer.appendChild(card);
     }
-   let views = document.querySelectorAll(".btn_play");
+    let views = document.querySelectorAll(".btn_play");
     for(let i=0; i< views.length; i++){       
         views[i].addEventListener("click",buttonClicktoViewScore);
     }
@@ -351,10 +355,14 @@ axios.get(URL+"display_score")
 }
 
 // ADD SCORES INTO THE DATABASE
+let isAdded = true;
 function addScoreToDatabase(score,quizId,currentTime){
-    axios.post(URL+"add_score",{score:score,quizId:quizId,dataTime:currentTime})
-    .then(response =>{return response})
-    .catch(error =>{alert(error)});
+    if(isAdded){
+        axios.post(URL+"add_score",{score:score,quizId:quizId,dataTime:currentTime})
+        .then(response =>{return response;})
+        .catch(error =>{alert(error)});
+        isAdded = false;
+    }
 }
 
 let screenToDisplay = document.querySelector(".container-questions");
@@ -367,5 +375,3 @@ let btn_go_to_score = document.querySelector("#scoreID");
 btn_go_to_score.addEventListener("click",returnScore);
 let scoreContainer = document.querySelector(".scoreContainer")
 
-// REFRESH DOM WHEN CALL
-getQuizesTypeFromServer();
