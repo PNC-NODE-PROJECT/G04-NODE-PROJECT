@@ -17,7 +17,7 @@ function displayQuizOptionalInDOM(array_of_quiz){
         card.className = "card-quiz ";
         card.id = array_of_quiz[i]._id;
         let card_header = document.createElement("div");
-        card_header.className = "card-header bg-primary";
+        card_header.className = "card-header bg-primary text-light";
         let h2 = document.createElement("h4");
         h2.className = "card-title";
         h2.textContent = array_of_quiz[i].title;
@@ -83,7 +83,7 @@ function playQuiz(list_of_questions) {
     if (index < list_of_questions.length){
         // GET QUESTION FROM ARRAY OF OBJECTS
         let content_question  = document.createElement("div");
-        content_question.classList = "container-fluid w-75";
+        content_question.classList = "container-fluid w-75 p-0";
         content_question.id  = list_of_questions[index]['_id'];
         let card = document.createElement("div");
         card.className = "question";
@@ -93,7 +93,7 @@ function playQuiz(list_of_questions) {
         // CHANGE ANSWER ALL TIME WHENEVER USER CLICK NEXT
         // CREATE LIST FOR ANSWER-1
         let content_answers = document.createElement("div");
-        content_answers.classList = "answers";
+        content_answers.classList = "answers mt-3 p-3";
 
         let box1 = document.createElement("div");
         box1.classList = "box d-flex";
@@ -138,15 +138,15 @@ function playQuiz(list_of_questions) {
         progrees += (100/list_of_questions.length);
 
         let range = document.createElement("div");
-        range.className = "range";
+        range.className = "range bg-primary";
         range.style.width = progrees + "%";
         let subRange = document.createElement("div")
         subRange.className = "subRange";
         let textRange = document.createElement("h5");
         
         let count_question = document.createElement("div");
-        count_question.classList = "card p-2 mb-2 mt-3";
-        textRange.textContent = index +'/'+ list_of_questions.length + " questions";
+        count_question.classList = "alert alert-success p-1 px-4 mx-4";
+        textRange.textContent = index +'/'+ list_of_questions.length + " QUE";
         count_question.appendChild(textRange);
         subRange.appendChild(count_question);
         content_question.appendChild(subRange);
@@ -202,8 +202,9 @@ function hide(element){
 function viewCorrection(){
     let i = 0;
     for(let data of temperaryData){
-    let question_summary_good_and_bad = document.createElement("div");
-    question_summary_good_and_bad.id = "questionSummary"
+        let question_summary_good_and_bad = document.createElement("div");
+        question_summary_good_and_bad.id = "questionSummary";
+
 
         let question_summary = document.createElement("h5");
         question_summary.textContent = (i+1)+". "+data.title;
@@ -241,7 +242,6 @@ function viewCorrection(){
 // Create button click event
 // requestData();
 let screenToDisplay = document.querySelector(".container-questions");
-// let displayGoodAndBadAnswers= document.querySelector("#viewCorrection");
 let correctSummary = document.querySelector(".correctionSummary");
 let correction = document.querySelector(".correction");
 

@@ -1,18 +1,10 @@
 
-// URL REQUEST
-const URL = 'http://localhost:8000/quizes/'
-
 // // ADD QUIZ
-function addQuiz(){
-
-    // hide(template_add_quiz);
-    show(btn_add_quiz);
-}
 // GLOBAL ID
 let global_id = "";
-// // REQUEST FROM INPUT
+// ADD NEW QUIZ TO SERVER
 function requestQuiz(){
-    let quiz_titles = document.querySelector("#quiz_title");
+    let quiz_titles = document.querySelector("#quiz-title");
     let title_of_quiz = quiz_titles.value;
     let isNotAlreadyExist = false;
     if (title_of_quiz != ""){
@@ -22,58 +14,35 @@ function requestQuiz(){
             }
         })
         if (isNotAlreadyExist == false){
-            axios.post(URL+"add_quiz",{title:title_of_quiz})
-            .then((result)=>{getQuizesTypeFromServer()});
-            // show(template_add_quiz);
-            hide(btn_add_quiz);
+            axios.post("/quizes/add_quiz",{title:title_of_quiz})
+            .then(getQuizesTypeFromServer(),quiz_titles.value = "");
         } else{
             alert("This quiz already exists!");
         }
     } else {
         alert("Input title of quiz!");
     }
+    
 }
 
-// function test(){
-//     let card = document.createElement("div");
-//     card.className = "card w-50 m-auto mt-2";
-//     card.style.backgroundColor ="#b2bec3";
-//     let card_body = document.createElement("div");
-//     card_body.className = "card-body";
-//     let h2 = document.createElement("h2");
-//     h2.className = "card-title";
-//     h2.textContent ="Play general quiz";
-//     card_body.appendChild(h2);
-//     card.appendChild(card_body);
-//     let para = document.createElement("p");
-//     para.textContent = "Improve yourself with "
-//     card_body.appendChild(para)
-//     let card_footer = document.createElement("div");
-//     card_footer.className = "card-footer";
-//     let btn_play = document.createElement("button");
-//     btn_play.className = "btn btn-primary mx-2";
-//     btn_play.id = "playQuiz";
-//     btn_play.textContent = "Practice Now";
-//     card_footer.appendChild(btn_play)
-//     card.appendChild(card_footer)
-//     type_quizes.appendChild(card);
-// }
-function deleetQuiz(quizID){
-    axios.delete(URL+"delete_question/"+quizID)
-    .then(getQuizesTypeFromServer())
+// DELETE QUIZ TYPE
+function deleteQuiz(quizID){
+    if (confirm("Are you sure you want you delete this quiz??")){
+        axios.delete("/quizes/delete_question/"+quizID)
+        .then(getQuizesTypeFromServer())
+    }
 }
 
-let update_titles = document.querySelector("#quiz_title");
-function updateQuestion(id, title) {
+let update_titles = document.querySelector("#quiz-title-update");
+function showQuizFormToUpdate(id, title) {
     update_titles.value = title;
-    hide(btn_dispay_quiz);
-    show(btn_update_quiz);
-    // hide(container_quiz)
     global_id = id;
-    addQuiz()
+    show(update_quiz_form);
 }
-function updateQuize(){
-    let quiz_titles = document.querySelector("#quiz_title").value;
+function updateQuiz(){
+    
+    let quiz_titles = document.querySelector("#quiz-title-update").value;
+    // if (update_quiz_form.style.display ==)
     let isNotAlreadyExist = false;
     if (quiz_titles != ""){
         array_of_quiz.forEach(array=>{
@@ -82,12 +51,10 @@ function updateQuize(){
             }
         })
         if (isNotAlreadyExist == false){
-            axios.put(URL+"update_question/"+global_id,{title:quiz_titles})
-            .then(getQuizesTypeFromServer()); 
-            update_titles.value = "";
-            show(btn_dispay_quiz)
-            hide(btn_update_quiz);
-            hide(btn_add_quiz);
+            axios.put("/quizes/update_question/"+global_id,{title:quiz_titles})
+            .then(getQuizesTypeFromServer(),
+            update_titles.value = "",
+            hide(update_quiz_form));
         } else{
             alert("This quiz already exists!");
         }
@@ -100,8 +67,9 @@ function updateQuize(){
 function getQuizesTypeFromServer(){
     axios.get("/quizes/quiz-title").then((result)=>{
         array_of_quiz = result.data;
-        console.log(array_of_quiz);
-        displayQuizOptionalInDOM(array_of_quiz);
+        if (array_of_quiz != []){
+            displayQuizOptionalInDOM(array_of_quiz);
+        }
     })
 }
 let array_of_quiz = [];
@@ -118,12 +86,12 @@ function displayQuizOptionalInDOM(array_of_quiz){
 
         // CREATE CARD
         let card = document.createElement("div");
-        card.className = "w-75 card-quiz";
+        card.className = "w-100 card-quiz";
         card.id = array_of_quiz[i]._id;
 
         // CREATE CARD HEADER
         let card_header = document.createElement("div");
-        card_header.className = "card-header";
+        card_header.className = "card-header bg-primary text-light";
         let h2 = document.createElement("h4");
         h2.className = "card-title";
         h2.textContent = array_of_quiz[i].title;
@@ -145,15 +113,16 @@ function displayQuizOptionalInDOM(array_of_quiz){
         btn_play.id = "createQuestion";
         btn_play.textContent = "View";
 
-        let btn_edit = document.createElement("button");
+        let btn_edit = document.createElement("a");
         btn_edit.className = "btn btn-primary mx-1";
         btn_edit.id = "editQuiz";
+        btn_edit.href = "#update-quiz-form"
         let iconEdit = document.createElement("i");
         iconEdit.className = "fas fa-edit";
         btn_edit.appendChild(iconEdit);
         btn_edit.onclick = function() 
         {
-            return updateQuestion(card.id,array_of_quiz[i].title) ;
+            return showQuizFormToUpdate(card.id,array_of_quiz[i].title) ;
         };
 
         let btn_delete = document.createElement("button");
@@ -162,7 +131,7 @@ function displayQuizOptionalInDOM(array_of_quiz){
         let iconDelete = document.createElement("i");
         iconDelete.className = "fas fa-trash"
         btn_delete.appendChild(iconDelete);
-        btn_delete.onclick = function() {return deleetQuiz(card.id)};
+        btn_delete.onclick = function() {return deleteQuiz(card.id)};
 
         // APPEND BUTTONS TO CARD FOOTER
         card_footer.appendChild(btn_play);
@@ -182,13 +151,10 @@ function displayQuizOptionalInDOM(array_of_quiz){
 let quizID = 0 ;
 function viewQuizTypes(e){
     quizID = e.target.parentElement.parentElement.id;
-    // requestData(quizID);
     requestDataFromServer(quizID)
-    console.log(quizID);
-    show(screenToDisplay);
-    btn_add.style.display = "flex";
+    show(screen_to_display);
+    btn_create_question.style.display = "flex";
     hide(container_quiz);
-    hide(template_add_quiz);
     hide(btn_add_quiz);
 }
 // CLIENT REQUEST DATA FROM SERVER TO DISPLAY IN THE DOM
@@ -197,7 +163,7 @@ function requestDataFromServer(quizID) {
         let list_of_questions = result.data;
         showQuestionInDom(list_of_questions);
         if (list_of_questions.length == 0){
-            show(content_create_questions);
+            alert("This quiz has no questions yet.Please create some questions!");
         }
     })
 }
@@ -213,23 +179,23 @@ function sendDataToServerToUpdate(response) {
 
 // SHOW ALL THE QUESTIONS IN THE DOM IN BROSWER
 function showQuestionInDom(list_of_questions){
-    while (screenToDisplay.firstChild) {
-        screenToDisplay.removeChild(screenToDisplay.lastChild);
+    while (screen_to_display.firstChild) {
+        screen_to_display.removeChild(screen_to_display.lastChild);
     }
         for (let index=0;index<list_of_questions.length;index++){
         // GET QUESTION FROM ARRAY OF OBJECTS
         let content_question  = document.createElement("div");
-        content_question.classList = "container-fluid w-50";
+        content_question.classList = "container-fluid w-50 p-0";
         content_question.id  = list_of_questions[index]['_id'];
         let card = document.createElement("div");
-        card.className = "question";
+        card.className = "question text-light";
         let question = document.createElement("h4")
         question.textContent = list_of_questions[index]['title'];
         card .appendChild(question);
         // CHANGE ANSWER ALL TIME WHENEVER USER CLICK NEXT
         // // CREATE LIST FOR ANSWER-1
         let content_answers = document.createElement("div");
-        content_answers.classList = "answers";
+        content_answers.classList = "answers mt-3";
 
         let box1 = document.createElement("div");
         box1.classList = "box d-flex";
@@ -294,7 +260,7 @@ function showQuestionInDom(list_of_questions){
         content_question.appendChild(content_answers);
         content_question.appendChild(card_footer);
         // INCREMENT INDEX BY 1
-        screenToDisplay.appendChild(content_question);
+        screen_to_display.appendChild(content_question);
 
     }
     let delete_Questions = document.querySelectorAll("#delete_question");
@@ -343,11 +309,8 @@ function checkValidation(title,ans1,ans2,ans3,ans4,correct_answer){
             }
             if (update_template.style.display == "none"){
                 sendDataToServer(data,quizID);
-                alert("Create successful!");
-                hide(content_create_questions);
             } else{
                 sendDataToServerToUpdate(data,quizID);
-                alert("Update successful!");
                 hide(update_template);
             }
             question_create.value = "";
@@ -365,7 +328,7 @@ function checkValidation(title,ans1,ans2,ans3,ans4,correct_answer){
 }
 // TO SHOW THE TEMPLATE OF CREATING NEW QUESTION
 function showCreateTemplate(){
-    show(content_create_questions);
+    hide(no_question_template)
 
 }
 
@@ -383,11 +346,8 @@ function showUpdateTemplate(data){
 
 // CANCEL
 function cancel(e){
-    if (e.target.id == "cancel-update"){
-        hide(update_template);
-    } else if (e.target.id == "cancel-create"){
-        hide(content_create_questions);
-    }
+    hide(update_quiz_form);
+    hide(update_template);
 }
 
 // TO SHOW ELEMENT
@@ -401,6 +361,7 @@ function hide(element){
 }
 
 // TO CHECK ACTION OF CLIENT CLICK
+let id = "";
 function clickQuestion(e){
     id = e.target.parentElement.parentElement.id;
     if (e.target.id === "delete_question"){
@@ -429,12 +390,7 @@ let answer2_create = document.querySelector("#answer2");
 let answer3_create = document.querySelector("#answer3");
 let answer4_create = document.querySelector("#answer4");
 let corr_answer = document.querySelector("#corr-ans");
-let content_create_questions = document.querySelector(".create-template");
-let btn_add = document.querySelector(".create-question");
-btn_add.addEventListener("click",showCreateTemplate);
-let cancel_create  = document.querySelector("#cancel-create");
-cancel_create.addEventListener("click",cancel);
-
+let btn_create_question = document.querySelector(".create-question");
 // UPDATE QUESTION
 let up_question = document.querySelector("#up-question");
 let up_answer1 = document.querySelector("#up-answer1");
@@ -445,13 +401,22 @@ let up_corr_answer = document.querySelector("#up-corr-ans");
 let update_template = document.querySelector(".update-template");
 let cancel_update = document.querySelector("#cancel-update");
 cancel_update.addEventListener("click",cancel);
-let container_quiz =document.querySelector(".container-quiz");
-let id = "";
-let screenToDisplay = document.querySelector(".container-questions");
-let template_add_quiz = document.querySelector("#template-add-quiz");
-let btn_add_quiz = document.querySelector("#addQuiz");
-let btn_dispay_quiz = document.querySelector("#btn-add-quiz");
-btn_dispay_quiz.addEventListener("click",requestQuiz);
 
-let btn_update_quiz = document.querySelector("#btn-update-quiz");
-btn_update_quiz.addEventListener("click",updateQuize);
+// CONTAINER ALL THE QUIZES TYPE
+let container_quiz =document.querySelector(".container-quiz");
+
+// CONTAINER ALL THE QUESTINS OF EACH QUIZ
+let screen_to_display = document.querySelector(".container-questions");
+
+// BUTTON TO SHOW THE TEMPLATE TO ADD QUIZ
+let btn_add_quiz = document.querySelector("#template-add-quiz");
+
+// FORM TO UPDATE QUIZ
+let update_quiz_form = document.querySelector("#update-quiz-form");
+// BUTTON TO ADD MORE QUIZ
+let btn_add_new_quiz = document.querySelector("#btn-add-quiz");
+btn_add_new_quiz.addEventListener("click", requestQuiz);
+
+// BUTTON TO CANCEL UPDATING QUIZ
+let cancel_update_quiz = document.querySelector("#cancel");
+cancel_update_quiz.addEventListener("click",cancel);
