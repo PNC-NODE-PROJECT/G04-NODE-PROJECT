@@ -260,6 +260,7 @@ function viewCorrection(){
 // DISPLAY SCORE 
 
 function displayScore(list_of_score){
+    console.log(list_of_score)
     hide(type_quizes);
     while(scoreContainer.firstChild){
         scoreContainer.removeChild(scoreContainer.lastChild)
@@ -328,21 +329,22 @@ function displayScore(list_of_score){
 
 // SHOW AND HIDE SCORE STATUS
 function buttonClicktoViewScore(event){
+    console.console.log(event.target.id);
     let card_body = event.target.parentNode.parentNode.children[1];
     if (card_body.style.display == "none"){
         show(card_body);
     } else{
         hide(card_body)
     }
-
 }
 
 //  GET ALL QUESTION FOR SERVER
 function returnScore(){
-axios.get(URL+"display_score")
+    axios.get(URL+"display_score")
     .then(response => 
         {
             list_of_score  = response.data;
+            console.log(list_of_score)
             displayScore(list_of_score )
         })
     .catch(error =>{alert(error)})
@@ -367,8 +369,9 @@ let type_quizes = document.querySelector(".container-quiz-type");
 let type_quizes_none = document.querySelector(".container-quiz-none");
 let btn_go_to_score = document.querySelector("#scoreID");
 btn_go_to_score.addEventListener("click",returnScore);
-let scoreContainer = document.querySelector(".scoreContainer")
+let scoreContainer = document.querySelector(".scoreContainer");
 
+// GENERAL QUIZE
 function selfExercise(){
     // hide(type_quizes);
     while (screenToDisplay.firstChild) {
@@ -407,4 +410,4 @@ function selfExercise(){
     card.appendChild(card_footer)
     type_quizes.appendChild(card);
 }
-selfExercise()
+selfExercise();

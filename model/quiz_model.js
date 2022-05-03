@@ -52,7 +52,6 @@ const ScoreSchema = new mongoose.Schema(
   {
     score: { type: String, require: true},
     dataTime:{ type: String, require: true}
-    // quizId: { type: mongoose.Schema.Types.ObjectId, ref: "quiz_types"}
   }
 )
 
@@ -75,8 +74,8 @@ const OwnSchema = new mongoose.Schema(
 const questionModel = mongoose.model("display_questions", QuestionSchema);
 const userModel = mongoose.model("users", UserSchema);
 const quizModel = mongoose.model("quiz_types", quizSchema);
-const scoreModel = mongoose.model("score",ScoreSchema);
-const ownerModel = mongoose.model("own_questions",OwnSchema);
+const scoreModel = mongoose.model("scores", ScoreSchema);
+const ownerModel = mongoose.model("own_questions", OwnSchema);
 module.exports.questionModel = questionModel;
 module.exports.userModel = userModel;
 module.exports.quizModel = quizModel;
