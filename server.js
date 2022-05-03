@@ -13,8 +13,10 @@ let questionsRouter = require('./routes/question_route');
 let usersRouter = require('./routes/user_route');
 let quizesRouter = require('./routes/quiz_route');
 let scoresRouter = require('./routes/score_route')
+let ownerRouter = require('./routes/owner_router')
+
 app.use('/questions', questionsRouter)
 app.use('/users', usersRouter);
 app.use('/quizes', quizesRouter);
 app.use('/scores', scoresRouter);
-
+app.use('/owners', ownerRouter);

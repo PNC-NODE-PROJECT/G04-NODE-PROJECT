@@ -13,7 +13,7 @@ function getQuizesTypeFromServer(){
 function displayQuizOptionalInDOM(array_of_quiz){
     for (let i=0; i<array_of_quiz.length;i++){
         let card = document.createElement("div");
-        card.className = "card-quiz ";
+        card.className = "card-quiz";
         card.id = array_of_quiz[i]._id;
         let card_header = document.createElement("div");
         card_header.className = "card-header bg-primary text-light";
@@ -31,7 +31,7 @@ function displayQuizOptionalInDOM(array_of_quiz){
         let btn_play = document.createElement("button");
         btn_play.className = "btn btn-primary mx-1";
         btn_play.id = "playQuize";
-        btn_play.textContent = "Practice Now";
+        btn_play.textContent = "PRACTICE NOW";
         card_footer.appendChild(btn_play)
         card.appendChild(card_footer)
         type_quizes.appendChild(card);
@@ -374,3 +374,42 @@ let btn_go_to_score = document.querySelector("#scoreID");
 btn_go_to_score.addEventListener("click",returnScore);
 let scoreContainer = document.querySelector(".scoreContainer")
 
+function selfExercise(){
+    // hide(type_quizes);
+    while (screenToDisplay.firstChild) {
+        screenToDisplay.removeChild(screenToDisplay.lastChild);
+    }
+    let card = document.createElement("div");
+    card.className = "card-quiz";
+    card.id = "none";
+    let card_header = document.createElement("div");
+    card_header.className = "card-header bg-primary text-light";
+    let h2 = document.createElement("h4");
+    h2.className = "card-title";
+    h2.textContent = "GENERAL TEST";
+    card_header.appendChild(h2);
+    card.appendChild(card_header);
+    let para = document.createElement("h6");
+    para.classList = "card-body";
+    para.textContent = "Improve your English with " 
+    card.appendChild(para)
+    let card_footer = document.createElement("div");
+    card_footer.className = "card-footer";
+    let btn_play = document.createElement("button");
+    btn_play.className = "btn btn-primary mx-1";
+    btn_play.id = "ownerQuiz";
+    btn_play.textContent = "PLAY NOW";
+    btn_play.onclick = function(){
+        axios.get("http://localhost:8000/owners/own_question")
+        .then((result)=>{
+         saveDataInLocalStorage(result.data);
+        //  console.log(result.data);
+        });
+        show(screenToDisplay);
+        hide(type_quizes);
+    }
+    card_footer.appendChild(btn_play)
+    card.appendChild(card_footer)
+    type_quizes.appendChild(card);
+}
+selfExercise()
