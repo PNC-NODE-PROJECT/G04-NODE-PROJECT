@@ -259,16 +259,16 @@ function viewCorrection(){
 }
 
 // DISPLAY SCORE 
-let card = document.querySelector(".card-score");
+
 function displayScore(list_of_score){
     hide(type_quizes);
-    while(card.firstChild){
-        card.removeChild(card.lastChild)
+    while(scoreContainer.firstChild){
+        scoreContainer.removeChild(scoreContainer.lastChild)
     }
     for(let i = 0; i<array_of_quiz.length;i++){
-        // var card = document.createElement("div");
-        // card.className = "card-score bg-secondary";
-        card.id = "array_of_quiz[i]._id";
+        var card = document.createElement("div");
+        card.className = "card-score bg-secondary";
+        card.id = array_of_quiz[i]._id;
 
         var card_header = document.createElement("div");
         card_header.className = "card-header bg-success";
@@ -362,6 +362,7 @@ function addScoreToDatabase(score,quizId,currentTime){
         .then(response =>{return response;})
         .catch(error =>{alert(error)});
         isAdded = false;
+        hide(btn_go_to_score);
     }
 }
 
