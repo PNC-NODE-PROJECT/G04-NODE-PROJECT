@@ -1,3 +1,5 @@
+//URL OF SCORES
+const URL = 'http://localhost:8000/scores/'
 
 // GET QUIZ TYPE FROM THE SERVER
 function getQuizesTypeFromServer(){
@@ -6,9 +8,6 @@ function getQuizesTypeFromServer(){
         displayQuizOptionalInDOM(array_of_quiz);
     })
 }
-let array_of_quiz = [];
-// REFRESH DOM WHEN CALL
-getQuizesTypeFromServer();
 
 // // DISPLAY QUIZ TYPE IN THE DOM
 function displayQuizOptionalInDOM(array_of_quiz){
@@ -71,11 +70,17 @@ function getDataFromLocalStorage(){
     let data = JSON.parse(localStorage.getItem("data"));
     playQuiz(data);
 }
-
+// GLOBAL VARIABLE
 let temperaryData = [];
 let index = 0;
 let progrees = 0;
-// Greate quiz timplate
+let global_scores = 0;
+let good_and_bad = [];
+let id_good_and_bad = [];
+let array_of_quiz = [];
+let list_of_score = [];
+let isShowandHide = true;
+// CREATE QUIZ TEMPLATE
 function playQuiz(list_of_questions) {
     while (screenToDisplay.firstChild) {
         screenToDisplay.removeChild(screenToDisplay.lastChild);
@@ -157,23 +162,34 @@ function playQuiz(list_of_questions) {
     }else{
         hide(screenToDisplay);
         show(correction);
-        document.querySelector("#max").textContent = parseInt((global_scores/list_of_questions.length)*100)+"%";
+        let maximumScore = parseInt((global_scores/list_of_questions.length)*100)+"%";
+        document.querySelector("#max").textContent = maximumScore;
         viewCorrection();
+        // CURRENT TIME DATE
+        var morning = "AM" 
+        var evening = "PM"
+        var isCurrentTime = "";
+        var mDate = new Date(Date.parse(morning));
+        var eDate = new Date(Date.parse(evening));
+        if (mDate < eDate ){isCurrentTime = morning}
+        else{isCurrentTime=evening}
+        var today = new Date();
+        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        var time = today.getHours() + ":" + today.getMinutes() + " " + isCurrentTime;
+        var dateTime = date+' '+time;
+        addScoreToDatabase(maximumScore,list_of_questions[0].quizId,dateTime)
     }
-    // Create button click
+
+    // CLICK BUTTON
     let buttons = document.querySelectorAll(".btn");
     for(let i=0; i<buttons.length; i++){
         if(i> 0){
             buttons[i].addEventListener("click",getClick);
         }
     }
-     
 }
 
-let global_scores = 0;
-let good_and_bad = [];
-let id_good_and_bad = [];
-// Valuate the the result
+// EVALUATE THE RESULT OF QUESTION
 function getClick(event){
     if(index <= temperaryData.length){
 
@@ -198,6 +214,7 @@ function show(element){
 function hide(element){
     element.style.display = "none";
 }
+
 // Good and Bad answers
 function viewCorrection(){
     let i = 0;
@@ -238,12 +255,112 @@ function viewCorrection(){
         }
     })
 }
-// Create button click event
-// requestData();
+
+// DISPLAY SCORE s
+function displayScore(list_of_score){
+    hide(type_quizes);
+    for(let i = 0; i<array_of_quiz.length;i++){
+        var card = document.createElement("div");
+        card.className = "card-score bg-secondary";
+        card.id = "array_of_quiz[i]._id";
+
+        var card_header = document.createElement("div");
+        card_header.className = "card-header bg-success";
+
+
+        var h2 = document.createElement("h4");
+        h2.className = "card-title text-white";
+        h2.textContent = array_of_quiz[i].title;
+        h2.textContent = h2.textContent.toUpperCase();
+        card_header.appendChild(h2);
+        card.appendChild(card_header);
+
+        var card_body = document.createElement("div");
+        card_body.className = "card-body";
+        card_body.id = array_of_quiz[i]._id;
+
+        for(let n = 0;n<list_of_score.length;n++){
+            if(list_of_score[n].quizId.title == array_of_quiz[i].title){
+                
+                var card_date_time = document.createElement("div");
+                card_date_time.className = "card-data-time px-3 text-dark";
+                card_date_time.textContent = "Date of played: "+ list_of_score[n].dataTime;
+                card_body.appendChild(card_date_time);
+            
+                var card_body_progress = document.createElement("div");
+                card_body_progress.className ="card_progress h-25 bg-primary m-2";
+                card_body_progress.style.width = "100%";
+                card_body.appendChild(card_body_progress);
+            
+                var card_range = document.createElement("div");
+                card_range.className = "card_range bg-danger h-25 d-flex justify-content-end py-2 px-1";
+                card_range.textContent = list_of_score[n].score;
+                card_range.style.width = list_of_score[n].score;
+                card_range.style.color = "white"
+                card_body_progress.appendChild(card_range);  
+            }else{
+                console.log(false);
+            }
+        }
+    
+        card.appendChild(card_body);
+        hide(card_body)
+        var card_footer = document.createElement("div");
+        card_footer.className = "card-footer";
+
+        var btn_play = document.createElement("button");
+        btn_play.className = "btn_play btn btn-primary mx-1";
+        btn_play.id = array_of_quiz[i]._id;
+        btn_play.textContent = "View Now";
+        card_footer.appendChild(btn_play)
+        card.appendChild(card_footer)
+        scoreContainer.appendChild(card);
+    }
+   let views = document.querySelectorAll(".btn_play");
+    for(let i=0; i< views.length; i++){       
+        views[i].addEventListener("click",buttonClicktoViewScore);
+    }
+}
+
+// SHOW AND HIDE SCORE STATUS
+function buttonClicktoViewScore(event){
+    let card_body = event.target.parentNode.parentNode.children[1];
+    if(isShowandHide){
+        show(card_body);
+        isShowandHide = false;
+    }else{
+        hide(card_body)
+        isShowandHide = true;
+    }
+}
+
+//  GET ALL QUESTION FOR SERVER
+function returnScore(){
+axios.get(URL+"display_score")
+    .then(response => 
+        {
+            list_of_score  = response.data;
+            displayScore(list_of_score )
+        })
+    .catch(error =>{alert(error)})
+}
+
+// ADD SCORES INTO THE DATABASE
+function addScoreToDatabase(score,quizId,currentTime){
+    axios.post(URL+"add_score",{score:score,quizId:quizId,dataTime:currentTime})
+    .then(response =>{return response})
+    .catch(error =>{alert(error)});
+}
+
 let screenToDisplay = document.querySelector(".container-questions");
-// let displayGoodAndBadAnswers= document.querySelector("#viewCorrection");
 let correctSummary = document.querySelector(".correctionSummary");
 let correction = document.querySelector(".correction");
 
 let type_quizes = document.querySelector(".container-quiz-type");
 let type_quizes_none = document.querySelector(".container-quiz-none");
+let btn_go_to_score = document.querySelector("#scoreID");
+btn_go_to_score.addEventListener("click",returnScore);
+let scoreContainer = document.querySelector(".scoreContainer")
+
+// REFRESH DOM WHEN CALL
+getQuizesTypeFromServer();
