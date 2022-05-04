@@ -163,17 +163,12 @@ function playQuiz(list_of_questions) {
         document.querySelector("#max").textContent = maximumScore;
         viewCorrection();
         // CURRENT TIME DATE
-        var morning = "AM" 
-        var evening = "PM"
-        var isCurrentTime = "";
-        var mDate = new Date(Date.parse(morning));
-        var eDate = new Date(Date.parse(evening));
-        if (mDate < eDate ){isCurrentTime = morning}
-        else{isCurrentTime=evening}
+        var time = new Date();
+        let currentTime = time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
         var today = new Date();
         var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-        var time = today.getHours() + ":" + today.getMinutes() + " " + isCurrentTime;
-        var dateTime = date+' '+time;
+        var times = today.getHours() + ":" + today.getMinutes() + " " + currentTime;
+        var dateTime = date+' '+ times;
         addScoreToDatabase(maximumScore,list_of_questions[0].quizId,dateTime);
     }
 
