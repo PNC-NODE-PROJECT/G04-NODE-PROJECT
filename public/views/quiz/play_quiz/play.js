@@ -384,7 +384,7 @@ function selfExercise(){
     card.appendChild(card_header);
     let para = document.createElement("h6");
     para.classList = "card-body";
-    para.textContent = "Improve your English with " 
+    para.textContent = "Improve your English with GENERAL TEST" 
     card.appendChild(para)
     let card_footer = document.createElement("div");
     card_footer.className = "card-footer";

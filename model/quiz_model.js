@@ -56,29 +56,11 @@ const ScoreSchema = new mongoose.Schema(
   }
 )
 
-// Own Schema
-const OwnSchema = new mongoose.Schema(
-  {
-    title: { type: String, require: true },
-    answers:
-    {
-      A: { type: String, require: true },
-      B: { type: String, require: true },
-      C: { type: String, require: true },
-      D: { type: String, require: true }
-    },
-    corr_answer: { type: String, require: true },
-    quizId: {type: mongoose.Schema.Types.ObjectId, ref: "quiz_types" }
-  }
-)
+
 // Create the Model for the Tasks collection from Schema
 const questionModel = mongoose.model("display_questions", QuestionSchema);
-const userModel = mongoose.model("users", UserSchema);
 const quizModel = mongoose.model("quiz_types", quizSchema);
 const scoreModel = mongoose.model("scores", ScoreSchema);
-const ownerModel = mongoose.model("own_questions", OwnSchema);
 module.exports.questionModel = questionModel;
-module.exports.userModel = userModel;
 module.exports.quizModel = quizModel;
 module.exports.scoreModel = scoreModel;
-module.exports.ownerModel = ownerModel;
