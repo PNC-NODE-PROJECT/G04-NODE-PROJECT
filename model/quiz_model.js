@@ -46,7 +46,6 @@ const ScoreSchema = new mongoose.Schema(
 )
 
 
-
 // Create the Model for the Tasks collection from Schema
 const questionModel = mongoose.model("display_questions", QuestionSchema);
 const quizModel = mongoose.model("quiz_types", quizSchema);

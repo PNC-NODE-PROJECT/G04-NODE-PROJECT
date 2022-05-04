@@ -1,5 +1,4 @@
 
-// const URL = 'http://localhost:8080/scores/'
 // GET QUIZ TYPE FROM THE SERVER
 function getQuizesTypeFromServer(){
     axios.get("/quizes/quiz-title").then((result)=>{
