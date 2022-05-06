@@ -9,7 +9,7 @@ function requestQuiz(){
     let isNotAlreadyExist = false;
     if (title_of_quiz != ""){
         array_of_quiz.forEach(array=>{
-            if (array.title == title_of_quiz){
+            if (array.title.toUpperCase() == title_of_quiz.toUpperCase()){
                 isNotAlreadyExist = true;
             }
         })
@@ -42,11 +42,11 @@ function showQuizFormToUpdate(id, title) {
 function updateQuiz(){
     
     let quiz_titles = document.querySelector("#quiz-title-update").value;
-    // if (update_quiz_form.style.display ==)
+    let title_quiz_update = quiz_titles.toUpperCase();
     let isNotAlreadyExist = false;
     if (quiz_titles != ""){
         array_of_quiz.forEach(array=>{
-            if (array.title == quiz_titles){
+            if (array.title.toUpperCase() === title_quiz_update){
                 isNotAlreadyExist = true;
             }
         })
@@ -92,7 +92,7 @@ function displayQuizOptionalInDOM(array_of_quiz){
         // CREATE CARD HEADER
         let card_header = document.createElement("div");
         card_header.className = "card-header bg-primary text-light";
-        let h2 = document.createElement("h4");
+        let h2 = document.createElement("h3");
         h2.className = "card-title";
         h2.textContent = array_of_quiz[i].title;
         card_header.appendChild(h2);
@@ -100,8 +100,10 @@ function displayQuizOptionalInDOM(array_of_quiz){
 
         // CREATE CARD BODY
         let card_body = document.createElement("div");
-        card_body.classList = "card-body"
-        card_body.textContent = "For this quiz, you can delete or update and create more about " + array_of_quiz[i].title;
+        card_body.classList = "card-body";
+        let para = document.createElement("h5");
+        para.textContent = "For this quiz, you can delete or update and create more about " + array_of_quiz[i].title;
+        card_body.appendChild(para);
         card.appendChild(card_body);
 
         // CREATE CARD FOOTER
@@ -164,6 +166,7 @@ function requestDataFromServer(quizID) {
         showQuestionInDom(list_of_questions);
         if (list_of_questions.length == 0){
             alert("This quiz has no questions yet.Please create some questions!");
+            show(create_question_template)
         }
     })
 }
@@ -188,7 +191,7 @@ function showQuestionInDom(list_of_questions){
         content_question.classList = "container-fluid w-50 p-0";
         content_question.id  = list_of_questions[index]['_id'];
         let card = document.createElement("div");
-        card.className = "question text-light";
+        card.className = "card-header bg-primary p-3 text-light";
         let question = document.createElement("h4")
         question.textContent = list_of_questions[index]['title'];
         card .appendChild(question);
@@ -203,7 +206,7 @@ function showQuestionInDom(list_of_questions){
         // GET CORRECT ANSWER FROM LIST OF QUESTION
         let correct_answer = list_of_questions[index]["corr_answer"];
         let answer_1 = document.createElement("div");
-        answer_1.classList = "btn";
+        answer_1.classList = "btn p-3";
         answer_1.style.background = "#0593E3";
         answer_1.textContent = list_of_questions[index]["answers"]["A"];
         
@@ -212,7 +215,7 @@ function showQuestionInDom(list_of_questions){
         }
         // CREATE LIST FOR ANSWER-2
         let answer_2 = document.createElement("div");
-        answer_2.classList = "btn ";
+        answer_2.classList = "btn p-3";
         answer_2.style.background = "#0593E3";
         answer_2.textContent = list_of_questions[index]["answers"]["B"];
         if (correct_answer === "B"){
@@ -224,7 +227,7 @@ function showQuestionInDom(list_of_questions){
         box2.classList = "box d-flex";
         // CREATE LIST FOR ANSWER-3
         let answer_3 = document.createElement("div");
-        answer_3.classList = "btn";
+        answer_3.classList = "btn p-3";
         answer_3.style.background = "#0593E3";
         answer_3.textContent = list_of_questions[index]["answers"]["C"];
         if (correct_answer === "C"){
@@ -232,7 +235,7 @@ function showQuestionInDom(list_of_questions){
         }
         // CREATE LIST FOR ANSWER-4
         let answer_4 = document.createElement("div");
-        answer_4.classList = "btn";
+        answer_4.classList = "btn p-3";
         answer_4.style.background = "#0593E3";
         answer_4.textContent = list_of_questions[index]["answers"]["D"];
         if (correct_answer === "D"){
@@ -244,7 +247,7 @@ function showQuestionInDom(list_of_questions){
 
         // CARD FOOTER
         let card_footer = document.createElement("div");
-        card_footer.className = "card_footer";
+        card_footer.className = "card_footer";  
         let btn_edit = document.createElement("i");
         btn_edit.classList = "fas fa-edit"
         btn_edit.id = "edit_question";
@@ -308,11 +311,13 @@ function checkValidation(title,ans1,ans2,ans3,ans4,correct_answer){
                 quizId: quizID
             }
             if (update_template.style.display == "none"){
+                hide(create_question_template);
                 sendDataToServer(data,quizID);
             } else{
                 sendDataToServerToUpdate(data,quizID);
                 hide(update_template);
             }
+            document.body.style.overflow  = "auto";
             question_create.value = "";
             answer1_create.value = "";
             answer2_create.value = "";
@@ -327,9 +332,14 @@ function checkValidation(title,ans1,ans2,ans3,ans4,correct_answer){
     }
 }
 // TO SHOW THE TEMPLATE OF CREATING NEW QUESTION
-function showCreateTemplate(){
-    hide(no_question_template)
-
+function showCreateTemplate(e){
+    if (e.target.id == "cancel-create"){
+        hide(create_question_template);
+        document.body.style.overflow  = "auto";
+    }else{
+        show(create_question_template);
+        document.body.style.overflow  = "hidden";
+    }
 }
 
 // TO SHOW TEMPLATE OF UPDATING QUESTION
@@ -340,13 +350,15 @@ function showUpdateTemplate(data){
     up_answer3.value = data.answers.C;
     up_answer4.value = data.answers.D;
     up_corr_answer.value = data.corr_answer;
-    update_template.style.display = "block";
+    show(update_template)
+    document.body.style.overflow = "hidden";
     
 }
 
 // CANCEL
 function cancel(e){
     hide(update_quiz_form);
+    document.body.style.overflow = "auto";
     hide(update_template);
 }
 
@@ -373,7 +385,6 @@ function clickQuestion(e){
         axios.get("/questions/display_question/").then((result)=>{
             result.data.forEach(data => {
                 if (id === data._id){
-                    console.log(data);
                     showUpdateTemplate(data);
                 }
                 
@@ -391,6 +402,10 @@ let answer3_create = document.querySelector("#answer3");
 let answer4_create = document.querySelector("#answer4");
 let corr_answer = document.querySelector("#corr-ans");
 let btn_create_question = document.querySelector(".create-question");
+btn_create_question.addEventListener("click",showCreateTemplate);
+let cancel_create = document.querySelector("#cancel-create");
+cancel_create.addEventListener("click",showCreateTemplate);
+let create_question_template = document.querySelector(".create-template");
 // UPDATE QUESTION
 let up_question = document.querySelector("#up-question");
 let up_answer1 = document.querySelector("#up-answer1");
@@ -412,7 +427,7 @@ let screen_to_display = document.querySelector(".container-questions");
 let btn_add_quiz = document.querySelector("#template-add-quiz");
 
 // FORM TO UPDATE QUIZ
-let update_quiz_form = document.querySelector("#update-quiz-form");
+let update_quiz_form = document.querySelector(".content-form-update-quiz");
 // BUTTON TO ADD MORE QUIZ
 let btn_add_new_quiz = document.querySelector("#btn-add-quiz");
 btn_add_new_quiz.addEventListener("click", requestQuiz);

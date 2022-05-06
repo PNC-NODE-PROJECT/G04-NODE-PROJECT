@@ -6,38 +6,58 @@ function getQuizesTypeFromServer(){
         displayQuizOptionalInDOM(array_of_quiz);
     })
 }
-
+// REFRESH DOM WHEN CALL
+getQuizesTypeFromServer();
 // // DISPLAY QUIZ TYPE IN THE DOM
 function displayQuizOptionalInDOM(array_of_quiz){
     for (let i=0; i<array_of_quiz.length;i++){
-        let card = document.createElement("div");
-        card.className = "card-quiz";
-        card.id = array_of_quiz[i]._id;
-        let card_header = document.createElement("div");
-        card_header.className = "card-header bg-primary text-light";
-        let h2 = document.createElement("h4");
-        h2.className = "card-title";
-        h2.textContent = array_of_quiz[i].title;
-        card_header.appendChild(h2);
-        card.appendChild(card_header);
-        let para = document.createElement("h6");
-        para.classList = "card-body";
-        para.textContent = "Improve your English with " +  array_of_quiz[i].title
-        card.appendChild(para)
-        let card_footer = document.createElement("div");
-        card_footer.className = "card-footer";
-        let btn_play = document.createElement("button");
-        btn_play.className = "btn btn-primary mx-1";
-        btn_play.id = "playQuize";
-        btn_play.textContent = "PRACTICE NOW";
-        card_footer.appendChild(btn_play)
-        card.appendChild(card_footer)
-        type_quizes.appendChild(card);
+        axios.get("/questions/quiz-title/"+array_of_quiz[i]._id).then((result)=>{
+            let number_of_questions = result.data.length;
+            let card = document.createElement("div");
+            card.className = "card-quiz";
+            card.id = array_of_quiz[i]._id;
+        
+            let card_header = document.createElement("div");
+            card_header.className = "card-header bg-primary text-light";
+            let h2 = document.createElement("h3");
+            h2.className = "card-title";
+            h2.textContent = array_of_quiz[i].title;
+            card_header.appendChild(h2);
+            card.appendChild(card_header);
+            let card_body = document.createElement("div");
+            card_body.classList = "card-body";
+            
+            let para = document.createElement("h4");
+            // para.classList = "card-body";
+            para.textContent = "Improve your English with " +  array_of_quiz[i].title;
+            let number = document.createElement("h5");
+            number.classList = "text-success mt-4";
+            if (number_of_questions === 1){
+                number.textContent = number_of_questions + " question";
+            } else if (number_of_questions  > 1){
+                number.textContent = number_of_questions + " questions";
+            }else {
+                number.textContent = "No question"
+            }
+            card.appendChild(number)
+            card_body.appendChild(para);
+            card_body.appendChild(number);
+            card.appendChild(card_body);
+            let card_footer = document.createElement("div");
+            card_footer.className = "card-footer";
+            let btn_play = document.createElement("button");
+            btn_play.className = "btn btn-primary mx-1";
+            btn_play.id = "playQuize";
+            btn_play.textContent = "PRACTICE NOW";
+            card_footer.appendChild(btn_play)
+            card.appendChild(card_footer)
+            type_quizes.appendChild(card);
+            let buttons = document.querySelectorAll("#playQuize");
+            buttons.forEach(btn => {
+                btn.addEventListener("click",playByQuizType);
+            });
+        })
     }
-    let buttons = document.querySelectorAll("#playQuize");
-    buttons.forEach(btn => {
-        btn.addEventListener("click",playByQuizType);
-    });
 }
 // // GET QUIZ ID BY EVENT TARGET
 let quizID = 0 ;
@@ -88,10 +108,17 @@ function playQuiz(list_of_questions) {
         content_question.classList = "container-fluid w-75 p-0";
         content_question.id  = list_of_questions[index]['_id'];
         let card = document.createElement("div");
-        card.className = "question";
-        let question = document.createElement("h4")
+        card.className = "card-header bg-primary p-3 text-light";
+        let question = document.createElement("h3");
         question.textContent = list_of_questions[index]['title'];
         card .appendChild(question);
+
+        // RANGE PROGREES BAR;
+        progrees += (100/list_of_questions.length);
+
+        let range = document.createElement("div");
+        range.className = "range bg-danger ";
+        range.style.width = progrees + "%";
         // CHANGE ANSWER ALL TIME WHENEVER USER CLICK NEXT
         // CREATE LIST FOR ANSWER-1
         let content_answers = document.createElement("div");
@@ -132,27 +159,21 @@ function playQuiz(list_of_questions) {
         content_answers.appendChild(box1);
         content_answers.appendChild(box2);
         content_question.appendChild(card);
+        content_question.appendChild(range)
         content_question.appendChild(content_answers);
 
         // INCREMENT INDEX BY 1
         index += 1;
-        // RANGE PROGREES BAR;
-        progrees += (100/list_of_questions.length);
-
-        let range = document.createElement("div");
-        range.className = "range bg-primary";
-        range.style.width = progrees + "%";
         let subRange = document.createElement("div")
         subRange.className = "subRange";
         let textRange = document.createElement("h5");
         
         let count_question = document.createElement("div");
         count_question.classList = "alert alert-success p-1 px-4 mx-4";
-        textRange.textContent = index +'/'+ list_of_questions.length + " QUE";
+        textRange.textContent = index +' of '+ list_of_questions.length + " Questions";
         count_question.appendChild(textRange);
         subRange.appendChild(count_question);
         content_question.appendChild(subRange);
-        content_question.appendChild(range);
         screenToDisplay.appendChild(content_question);
         temperaryData = list_of_questions;
 
@@ -180,8 +201,7 @@ function playQuiz(list_of_questions) {
         }
     }
 }
-// REFRESH DOM WHEN CALL
-getQuizesTypeFromServer();
+
 // EVALUATE THE RESULT OF QUESTION
 function getClick(event){
     if(index <= temperaryData.length){
@@ -231,10 +251,10 @@ function viewCorrection(){
         if (id_good_and_bad[i] == data.corr_answer){
             paragrap_Correction.textContent = good_and_bad[i];
             answer_summary.style.color = "green";
-            question_summary_good_and_bad.classList = "alert alert-success";
+            question_summary_good_and_bad.classList = "alert mb-2 alert-success";
         }else{
             paragrap_Correction.textContent = good_and_bad[i];
-            question_summary_good_and_bad.classList = "alert alert-danger";
+            question_summary_good_and_bad.classList = "alert mb-2 alert-danger";
             answer_summary.style.color = "red";
             icon.className = "fa fa-remove";
         }
@@ -253,7 +273,6 @@ function viewCorrection(){
 // DISPLAY SCORE 
 
 function displayScore(list_of_score){
-    console.log(list_of_score)
     hide(type_quizes);
     while(scoreContainer.firstChild){
         scoreContainer.removeChild(scoreContainer.lastChild)
@@ -264,7 +283,7 @@ function displayScore(list_of_score){
         card.id = array_of_quiz[i]._id;
 
         var card_header = document.createElement("div");
-        card_header.className = "card-header bg-primary";
+        card_header.className = "card-header bg-success";
 
         var h2 = document.createElement("h4");
         h2.className = "card-title text-white";
@@ -306,7 +325,7 @@ function displayScore(list_of_score){
         card_footer.className = "card-footer";
 
         var btn_play = document.createElement("button");
-        btn_play.className = "btn_play btn btn-primary mx-1";
+        btn_play.className = "btn_play btn btn-primary mx-1 mt-4";
         btn_play.id = array_of_quiz[i]._id;
         btn_play.textContent = "View Now";
         card_footer.appendChild(btn_play)

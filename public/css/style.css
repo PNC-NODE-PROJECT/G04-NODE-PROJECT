@@ -2,7 +2,7 @@ body{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-image: url(../images/background.png);
+    background-image: url(../images/background1.png);
     background-position: 0px 3px;
     background-size: cover;
     position: relative;
@@ -16,9 +16,13 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: sticky;
+    top: 0%;
     width: 100%;
     color: #0593E3;
     box-shadow: 1px 1px 3px 3px #aaa;
+    background: #e3e3e3e3;
+    z-index: 1;
 }
 
 .header-left {
@@ -50,12 +54,17 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 60px auto;
-    width: 60%;
-    background: #6f3af6b5;
+    margin: 10px auto;
+    width: 100%;
     height: auto;
-    padding: 50px 30px;
+    padding: 50px 80px;
     border-radius: 8px;
+}
+.contain .welcome-text{
+    font-size: 46px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    animation: text 3s 1;
 }
 #let-start{
     position: absolute;
@@ -74,8 +83,6 @@ header {
     background: #d1c7c79a;
     margin: 40px auto;
     font-size: 20px;
-    /* border-top: 8px solid #0593E3; */
-    /* padding: 20px 30px; */
     text-align: center;
     box-shadow: -15px -15px 15px rgba(255,255,255,0.2),
                 15px 15px 15px rgba(0, 0, 0, 0.1),
@@ -83,11 +90,11 @@ header {
                 inset 5px 5px 5px rgba(0, 0, 0, 0.1);
 }
 
-.container-fluid .question{
+/* .container-fluid .question{
     background: #0593E3;
     margin: 0;
     padding: 12px;
-}
+} */
 
 .container-fluid .answers .box .btn{
     width: 80%;
@@ -143,7 +150,7 @@ header {
     justify-content: start;
 }
 .range{
-    height: 2vh;
+    height: 1.5vh;
 }
 .correction{
     width: 80%;
@@ -215,36 +222,32 @@ header {
 
 /* / Create questions / */
 
-.update-template{
-    position: absolute;
-    height: 100%;
+.create-template,.update-template,.content-form-update-quiz{
+    position: fixed;
+    height: 100vh;
     width: 100%;
-    top: 60px;
-    background: rgba(85, 84, 84, 0.647);
-    padding-bottom:100px;
+    padding: 60px 0;
+    top: 0px;
+    background: rgba(85, 84, 84, 0.808);
     z-index: 1;
+    animation-name: modalopen;
+    animation-duration: 1.5s;
 }
 .container-create-question{
-    width: 100%;
+    width: 60%;
     margin:auto;
     padding: 10px;
     background: rgb(234, 231, 231);
-    /* / border-top: 8px solid #0593E3; / */
     padding: 20px 30px;
     text-align: right;
 }
-/* .template-header{
-    background: #0593E3;
-    margin: auto;
-    color: #fff;
-    padding: 10px 0;
-} */
+
 
 /* /  TYPE OF QUIZES / */
 .container-quiz-type{
     display: grid;
-    grid-template-columns: 2fr 2fr 2fr;
-    width: 100%;
+    grid-template-columns: 2fr 2fr;
+    width: 90%;
     margin: 30px auto;
     padding: 20px;
     max-height: auto;
@@ -276,19 +279,36 @@ header {
 .card-quiz { 
     height: auto;
     margin: 20px;
-    box-shadow: 2px 1px 4px 1px #fff;
-    background: #ffffffa7;
-}
-#update-quiz-form{
-    background: #ffffffa7;
-    width: 30%;
-    display: none;
+    /* box-shadow: 2px 1px 4px 1px #fff; */
+    background: #ffffff63;
 }
 
 .card-score {
     background: #ffffff30;
     font-size: 18px;
+    width: 80%;
+    margin: auto;
 }
 .card_progress{
     background: #9292926a;
+}
+
+
+@keyframes modalopen{
+    from{ opacity: 0;}
+    to{ opacity: 1;}
+}
+
+
+@keyframes text{
+    0%{
+        letter-spacing: 8px;
+    }
+    35%{
+        letter-spacing: 6px;
+    }
+    85%{
+        letter-spacing: 3px;
+        
+    }
 }
