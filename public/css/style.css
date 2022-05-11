@@ -58,19 +58,25 @@ header {
     width: 100%;
     height: auto;
     padding: 50px 80px;
-    border-radius: 8px;
 }
 .contain .welcome-text{
     font-size: 46px;
     font-weight: 900;
     letter-spacing: 3px;
     animation: text 3s 1;
+    color: rgb(255, 213, 0);
+    text-shadow: 6px 3px 3px rgb(110, 110, 110);
+}
+.contain p{
+    font-weight: 500;
+    color: #1081eb;
+    font-size: 24px
 }
 #let-start{
     position: absolute;
-    background: rgba(250, 250, 250, 0.295);
+    background: rgba(145, 215, 250, 0.261);
     margin-top: 160px;
-    font-size: 23px;
+    font-size: 24px;
     margin-left: 50px;
 }
 #let-start:hover{
@@ -90,11 +96,6 @@ header {
                 inset 5px 5px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* .container-fluid .question{
-    background: #0593E3;
-    margin: 0;
-    padding: 12px;
-} */
 
 .container-fluid .answers .box .btn{
     width: 80%;
@@ -310,5 +311,70 @@ header {
     85%{
         letter-spacing: 3px;
         
+    }
+}
+
+@media (max-width: 1224px) {
+    .contain{ 
+        padding: 30px 40px;
+    }
+    .contain .welcome-text{
+        font-size: 40px;
+    }
+}
+@media (max-width: 998px) {
+    .contain .welcome-text{
+        font-size: 30px;
+    }
+    .contain p{
+        font-size: 20px;
+    }
+    .container-quiz-type{
+        display: grid;
+        grid-template-columns: 2fr 2fr;
+        width: 100%;
+    }
+}
+@media (max-width: 824px) {
+    .contain{ 
+        margin: 80px auto;
+
+    }
+    .contain .image{
+        display: none;
+    }
+    .header-left .logo-title{
+        display: none;
+    }
+    .container-quiz-type{
+        display: grid;
+        grid-template-columns:  2fr;
+        width: 100%;
+    }
+    .container-quiz {   
+        grid-template-columns: 2fr;
+        width: 100%;
+    }
+    .scoreContainer{
+        width: 100%;
+    }
+    .scoreContainer{
+        width: 100%;
+    }
+    .correction{
+        width: 100%;
+    }
+    .correctionScore{
+        width: 100%;
+    }
+    .box .scores {
+        padding: 0%;
+    }
+    .container-quiz-none{
+        width: 80%;
+    }
+    .container-questions .container-fluid{
+        width: 100%;
+        background: #000;
     }
 }

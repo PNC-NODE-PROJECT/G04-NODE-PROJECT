@@ -1,8 +1,8 @@
-
+require('dotenv').config() 
 const mongoose = require("mongoose");
 
 // TODO: Connect to MangoDB
-mongoose.connect("mongodb://127.0.0.1:27017/quiz_app")
+mongoose.connect(process.env.DB_URL);
 
 // Check if connection is successfull
 const db = mongoose.connection;
