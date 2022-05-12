@@ -188,8 +188,7 @@ function playQuiz(list_of_questions) {
         let currentTime = time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
         var today = new Date();
         var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-        var times = today.getHours() + ":" + today.getMinutes() + " " + currentTime;
-        var dateTime = date+' '+ times;
+        var dateTime = date+' '+ currentTime;
         addScoreToDatabase(maximumScore,list_of_questions[0].quizId,dateTime);
     }
 
