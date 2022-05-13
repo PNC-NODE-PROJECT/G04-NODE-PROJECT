@@ -119,8 +119,8 @@ function displayQuizOptionalInDOM(array_of_quiz){
         btn_edit.className = "btn btn-primary mx-1";
         btn_edit.id = "editQuiz";
         btn_edit.href = "#update-quiz-form"
-        let iconEdit = document.createElement("i");
-        iconEdit.className = "fas fa-edit";
+        let iconEdit = document.createElement("img");
+        iconEdit.src = "../../../images/Edit.png";
         btn_edit.appendChild(iconEdit);
         btn_edit.onclick = function() 
         {
@@ -130,8 +130,8 @@ function displayQuizOptionalInDOM(array_of_quiz){
         let btn_delete = document.createElement("button");
         btn_delete.className = "btn btn-danger mx-1";
         btn_delete.id = "deleetQuiz";
-        let iconDelete = document.createElement("i");
-        iconDelete.className = "fas fa-trash"
+        let iconDelete = document.createElement("img");
+        iconDelete.src = "../../../images/Delete.png";
         btn_delete.appendChild(iconDelete);
         btn_delete.onclick = function() {return deleteQuiz(card.id)};
 
@@ -248,8 +248,8 @@ function showQuestionInDom(list_of_questions){
         // CARD FOOTER
         let card_footer = document.createElement("div");
         card_footer.className = "card_footer";  
-        let btn_edit = document.createElement("i");
-        btn_edit.classList = "fas fa-edit"
+        let btn_edit = document.createElement("img");
+        btn_edit.src = "../../../images/Edit.png";
         btn_edit.id = "edit_question";
         let btn_delete = document.createElement("i");
         btn_delete.className = "material-icons";
